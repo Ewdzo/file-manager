@@ -12,7 +12,7 @@ export const generateFilePath: any = (
 
   if (hasNumber) {
     const number = Number(hasNumber[0].replace(".", "")) + 1;
-    const newFileName = fileName.split(hasNumber[0]).join(number + "");
+    const newFileName = fileName.split(hasNumber[0]).join(number + ".");
 
     return generateFilePath(folder, newFileName, number);
   }
