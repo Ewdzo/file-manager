@@ -8,10 +8,10 @@ export const generateFilePath: any = (
 
   if (!fs.existsSync(pathToCheck)) return pathToCheck;
 
-  const hasNumber = fileName.match(/\d+/);
+  const hasNumber = fileName.match(/\d+\./);
 
   if (hasNumber) {
-    const number = Number(hasNumber[0]) + 1;
+    const number = Number(hasNumber[0].replace(".", "")) + 1;
     const newFileName = fileName.split(hasNumber[0]).join(number + "");
 
     return generateFilePath(folder, newFileName, number);
