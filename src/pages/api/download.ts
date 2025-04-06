@@ -1,6 +1,7 @@
 import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
+import progress_stream from "progress-stream";
 
 type ResponseData = {
   message: string;
@@ -21,21 +22,29 @@ export default async function handler(
     return;
   }
 
-  if(!req.query.name) {
+  if (!req.query.name) {
     res.status(400).json({ message: "Missing 'name' parameter." });
     return;
-  };
+  }
 
   const fileName = req.query.name as string;
 
-  var filePath = path.join("./files/", fileName);
-  var stat = fs.statSync(filePath);
+  const filePath = path.join("./files/", fileName);
+  const stat = fs.statSync(filePath);
+
 
   res.writeHead(200, {
     "Content-Length": stat.size,
-    "Content-Disposition": 'attachment; filename=' + fileName
+    "Content-Disposition": "attachment; filename=" + fileName,
   });
 
-  var readStream = fs.createReadStream(filePath);
-  readStream.pipe(res);
+  const readStream = fs.createReadStream(filePath);
+  const str = progress_stream(
+    { time: 100, length: stat.size },
+    function (progress) {
+      console.log(progress);
+    }
+  );
+
+  readStream.pipe(str).pipe(res);
 }
