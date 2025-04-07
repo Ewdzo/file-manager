@@ -1,9 +1,9 @@
-import { Container } from "./components/container";
+import { DefaultScreen } from "./components/defaultScreen";
 
 export default function Home() {
   return (
-    <Container >
+    <DefaultScreen >
       Hello
-    </Container>
+    </DefaultScreen>
   );
 }

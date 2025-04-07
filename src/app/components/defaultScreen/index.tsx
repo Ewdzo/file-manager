@@ -2,7 +2,7 @@
 
 import { Background, DefaultMain } from "./style";
 
-export const Container = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+export const DefaultScreen = ({ children }: Readonly<{ children: React.ReactNode }>) => {
 
     return (
         <DefaultMain>
