@@ -9,10 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        blackNFM: "#101010",
+        whiteNFM: "#FDFDFD",
+        greyNFM: "#888888",
+        darkGreyNFM: "#404040"
       },
     },
   },
   plugins: [],
 } satisfies Config;
+
+
