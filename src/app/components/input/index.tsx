@@ -11,7 +11,7 @@ export type InputProps = {
 }
 
 export const Input = (props: InputProps) => {
-    const { name, placeholder, type, id, className } = props;
+    const { name, id, className } = props;
     return (
         <InputStyled className={className}>
             <label className="text-whiteNFM" htmlFor={id}>{name}</label>

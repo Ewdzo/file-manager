@@ -32,7 +32,7 @@ export const JoinScreen = ({ children }: Readonly<{ children?: React.ReactNode }
             name="Porta"
             type="text"
             id="server_port"
-            placeholder="Porta de Execução da Aplicação"
+            placeholder="Porta da Aplicação"
         />
         {children}
     </>
