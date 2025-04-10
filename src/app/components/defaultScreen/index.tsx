@@ -1,12 +1,11 @@
 "use client";
 
-import { Background, DefaultMain } from "./style";
+import { DefaultMain } from "./style";
 
-export const DefaultScreen = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+export const DefaultScreen = ({ children, className }: Readonly<{ children?: React.ReactNode, className?: string }>) => {
 
     return (
-        <DefaultMain>
-            <Background />
+        <DefaultMain className={className}>
             {children}
         </DefaultMain>
     )
