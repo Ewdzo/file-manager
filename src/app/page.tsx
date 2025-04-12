@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArticleStyled } from "./components/article/style";
 import { Button } from "./components/button";
 import { GreyButton } from "./components/button/variation/greyButton";
 import { Container } from "./components/container";
@@ -17,41 +18,39 @@ export default function Home() {
   return (
     <DefaultScreen>
       <Container className="relative z-10">
-        <h1>Nexus</h1>
         {!option && (
           <>
-            <Option
-              {...CreateOption}
-              onClick={() => setOption("create")}
-            />
-            <Divider />
-            <Option
-              {...JoinOption}
-              onClick={() => setOption("join")}
-            />
+            <h1>Nexus</h1>
+            <ArticleStyled>
+              <Option
+                {...CreateOption}
+                onClick={() => setOption("create")}
+              />
+              <Divider />
+              <Option
+                {...JoinOption}
+                onClick={() => setOption("join")}
+              />
+            </ArticleStyled>
           </>
         )}
         {option == "join" && (
-          <>
-            <JoinScreen>
-              <Button onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
-                Voltar
-              </Button>
-            </JoinScreen>
-          </>
+          <JoinScreen>
+            <Button onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
+              Voltar
+            </Button>
+          </JoinScreen>
         )}
         {
           option == "create" && (
-            <>
-              <CreateScreen>
-                <Button onClick={() => { }}>
-                  Cadastrar-se
-                </Button>
-                <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
-                  Voltar
-                </GreyButton>
-              </CreateScreen>
-            </>
+            <CreateScreen>
+              <Button onClick={() => { }}>
+                Cadastrar-se
+              </Button>
+              <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
+                Voltar
+              </GreyButton>
+            </CreateScreen>
           )
         }
       </Container>

@@ -10,6 +10,10 @@ export const DefaultMain = styled.main`
   background: #202020;
   padding: 2em;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &:after {
     content: "";
     position: absolute;

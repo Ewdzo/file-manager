@@ -5,6 +5,11 @@ export const InputStyled = styled.div`
   text-align: center;
   width: 100%;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   input {
     margin-top: 12px;
 

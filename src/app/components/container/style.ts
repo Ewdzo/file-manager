@@ -14,7 +14,11 @@ export const ContainerStyled = styled.div`
   flex-direction: column;
   justify-items: center;
   align-items: center;
+  width: fit-content;
 
   padding: 2em;
-  gap: 2em;
+
+  /* @media (min-width: 1024px) {
+    flex-direction: row;
+  } */
 `;

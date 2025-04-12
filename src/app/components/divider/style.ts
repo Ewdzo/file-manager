@@ -1,7 +1,14 @@
 import styled from "styled-components";
 
 export const DividerStyled = styled.div`
+  height: 1px;
   width: 100%;
-  border: solid 1px #404040;
-  margin: 1em 0;
+  min-width: 1px;
+  
+  background: #404040;
+  
+  @media (min-width: 1024px) {
+    min-height: 300px;
+    max-width: 1px;
+  }
 `;
