@@ -23,7 +23,7 @@ export const JoinScreen = ({ children }: Readonly<{ children?: React.ReactNode }
                         <br />
                         Durante a solicitação informe para o administrador as seguintes informações:
                     </p>
-                    <div className="flex flex-col gap-4 items-center lg:-translate-x-1/4">
+                    <div className="flex flex-col gap-4 items-center">
                         <Input
                             name="Nome do Servidor"
                             type="text"
