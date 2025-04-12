@@ -21,7 +21,7 @@ export const CreateScreen = ({ children }: Readonly<{ children?: React.ReactNode
                     <p className="md:text-start text-center text-greyNFM max-w-[515px]">
                         Para criação de um novo sistema Nexus de gerenciamento de arquivos, defina as credenciais do usuário administrador, informações para contato e preencha suas informações de rede.
                     </p>
-                    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 w-3/4">
+                    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 w-3/4 lg:w-full">
                         <div className="flex flex-col gap-4 items-center">
                             <Input
                                 name="Usuário Administrador"

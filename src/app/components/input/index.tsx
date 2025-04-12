@@ -1,13 +1,15 @@
 "use client";
 
+import { DetailedHTMLProps, InputHTMLAttributes } from "react";
 import { InputStyled } from "./style";
 
-export type InputProps = {
+export type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
     name: string;
     placeholder: string;
     type: "text" | "password";
     id: string;
     className?: string;
+    
 }
 
 export const Input = (props: InputProps) => {

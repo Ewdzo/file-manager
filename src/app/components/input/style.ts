@@ -11,8 +11,6 @@ export const InputStyled = styled.div`
   align-items: center;
 
   input {
-    margin-top: 12px;
-
     width: 100%;
     height: 38px;
     padding: 8px;
