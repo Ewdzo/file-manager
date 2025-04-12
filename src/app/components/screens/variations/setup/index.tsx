@@ -4,22 +4,21 @@ import { ArticleStyled } from "@/app/components/article/style";
 import { Button } from "@/app/components/button";
 import { GreyButton } from "@/app/components/button/variation/greyButton";
 import { Container } from "@/app/components/container";
-import { DefaultScreen } from "@/app/components/defaultScreen";
 import { Divider } from "@/app/components/divider";
 import { Option } from "@/app/components/option";
 import { CreateOption, JoinOption } from "@/app/components/option/options";
+import { CreateScreen } from "@/app/components/screens/variations/create";
+import { JoinScreen } from "@/app/components/screens/variations/join";
 import { useState } from "react";
-import { CreateScreen } from "../create";
-import { JoinScreen } from "../join";
 
-export default function Home() {
+export default function SetupScreen() {
     const [option, setOption] = useState<null | "create" | "join">();
 
     return (
-        <DefaultScreen>
-            <Container className="relative z-10">
-                <h1>Nexus</h1>
-                {!option && (
+        <Container className="relative z-10">
+            {!option && (
+                <>
+                    <h1>Nexus</h1>
                     <ArticleStyled>
                         <Option
                             {...CreateOption}
@@ -31,15 +30,17 @@ export default function Home() {
                             onClick={() => setOption("join")}
                         />
                     </ArticleStyled>
-                )}
-                {option == "join" && (
-                    <JoinScreen>
-                        <Button onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
-                            Voltar
-                        </Button>
-                    </JoinScreen>
-                )}
-                {option == "create" && (
+                </>
+            )}
+            {option == "join" && (
+                <JoinScreen>
+                    <Button onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
+                        Voltar
+                    </Button>
+                </JoinScreen>
+            )}
+            {
+                option == "create" && (
                     <CreateScreen>
                         <Button onClick={() => { }}>
                             Cadastrar-se
@@ -48,10 +49,8 @@ export default function Home() {
                             Voltar
                         </GreyButton>
                     </CreateScreen>
-
                 )
-                }
-            </Container>
-        </DefaultScreen >
+            }
+        </Container>
     );
 }
