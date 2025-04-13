@@ -8,7 +8,7 @@ export const DividerStyled = styled.div`
   background: #404040;
   
   @media (min-width: 1024px) {
-    min-height: 300px;
+
     height: auto;
     margin: 50px 0;
     max-width: 1px;

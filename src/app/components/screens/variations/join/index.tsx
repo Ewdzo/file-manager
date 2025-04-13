@@ -2,7 +2,7 @@ import { Input } from "@/app/components/input"
 import Image from "next/image"
 import { ArticleStyled } from "./style"
 
-export const JoinScreen = ({ children }: Readonly<{ children?: React.ReactNode }>) => {
+export const Join = ({ children }: Readonly<{ children?: React.ReactNode }>) => {
     return (
         <>
             <h1>Juntar-se</h1>

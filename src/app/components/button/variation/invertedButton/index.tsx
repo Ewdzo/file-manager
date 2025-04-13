@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { MouseEventHandler } from "react";
-import { GreyButtonStyled } from "./style";
+import { ButtonStyled } from "./style";
 
 type ButtonProps = {
     children?: React.ReactNode;
@@ -11,18 +11,19 @@ type ButtonProps = {
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const GreyButton = ({ children, className, image, onClick }: ButtonProps) => {
+export const InvertedButton = ({ children, className, image, onClick }: ButtonProps) => {
     return (
-        <GreyButtonStyled onClick={onClick} className={className}>
+        <ButtonStyled onClick={onClick} className={className}>
+            {children}
             {image &&
                 <Image
                     src={image.path}
                     alt={image.alt}
-                    width={11}
-                    height={11}
+                    width={17}
+                    height={17}
+                    style={{ transform: "scale(-1, -1)" }}
                 />
             }
-            {children}
-        </GreyButtonStyled>
+        </ButtonStyled>
     )
 }

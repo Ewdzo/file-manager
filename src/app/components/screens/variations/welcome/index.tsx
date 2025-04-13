@@ -3,16 +3,17 @@
 import { ArticleStyled } from "@/app/components/article/style";
 import { Button } from "@/app/components/button";
 import { GreyButton } from "@/app/components/button/variation/greyButton";
+import { InvertedButton } from "@/app/components/button/variation/invertedButton";
 import { Container } from "@/app/components/container";
 import { Divider } from "@/app/components/divider";
 import { Option } from "@/app/components/option";
-import { CreateOption, JoinOption } from "@/app/components/option/options";
-import { Create } from "@/app/components/screens/variations/create";
-import { Join } from "@/app/components/screens/variations/join";
+import { LoginOption, RegisterOption } from "@/app/components/option/options";
 import { useState } from "react";
+import { Login } from "../login";
+import { Register } from "../register";
 
-export default function SetupScreen() {
-    const [option, setOption] = useState<null | "create" | "join">();
+export default function WelcomeScreen() {
+    const [option, setOption] = useState<null | "login" | "register">();
 
     return (
         <Container className="relative z-10">
@@ -21,34 +22,37 @@ export default function SetupScreen() {
                     <h1>Nexus</h1>
                     <ArticleStyled>
                         <Option
-                            {...CreateOption}
-                            onClick={() => setOption("create")}
+                            {...LoginOption}
+                            onClick={() => setOption("login")}
                         />
                         <Divider />
                         <Option
-                            {...JoinOption}
-                            onClick={() => setOption("join")}
+                            {...RegisterOption}
+                            onClick={() => setOption("register")}
                         />
                     </ArticleStyled>
                 </>
             )}
-            {option == "join" && (
-                <Join>
-                    <Button onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
+            {option == "login" && (
+                <Login>
+                    <InvertedButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
+                        Entrar
+                    </InvertedButton>
+                    <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
                         Voltar
-                    </Button>
-                </Join>
+                    </GreyButton>
+                </Login>
             )}
             {
-                option == "create" && (
-                    <Create>
+                option == "register" && (
+                    <Register>
                         <Button onClick={() => { }}>
                             Cadastrar-se
                         </Button>
                         <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
                             Voltar
                         </GreyButton>
-                    </Create>
+                    </Register>
                 )
             }
         </Container>

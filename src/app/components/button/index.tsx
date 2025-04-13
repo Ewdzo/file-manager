@@ -8,7 +8,7 @@ type ButtonProps = {
     children?: React.ReactNode;
     className?: string;
     image?: { path: string, alt: string };
-    onClick: MouseEventHandler<HTMLButtonElement>;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const Button = ({ children, className, image, onClick }: ButtonProps) => {
