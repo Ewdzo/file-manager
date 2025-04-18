@@ -1,4 +1,4 @@
-import { DefaultScreen } from "./components/defaultScreen";
+import { DefaultScreen } from "./components/screens";
 import WelcomeScreen from "./components/screens/variations/welcome";
 
 export default function Home() {

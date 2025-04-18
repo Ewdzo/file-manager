@@ -38,3 +38,13 @@ export const DefaultMain = styled.main`
     );
   }
 `;
+
+export const HomeMain = styled.main`
+  width: 100%;
+  height: 100%;
+  min-width: 100vw;
+  min-height: 100vh;
+
+  position: relative;
+  background: #202020;
+`;
