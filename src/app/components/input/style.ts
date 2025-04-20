@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const InputStyled = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   width: 100%;
 

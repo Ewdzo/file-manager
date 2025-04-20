@@ -27,6 +27,7 @@ export const Header = () => {
                 <Image
                     width={35}
                     height={35}
+                    priority
                     alt="User Icon"
                     src="/assets/images/default_user.png"
                     className="rounded-full border border-darkGreyNFM"

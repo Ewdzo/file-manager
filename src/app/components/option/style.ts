@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const OptionStyled = styled.div`
   background: #1E1E1E;
 
-  font-size: 12px;
+  font-size: 16px;
   color: #fff;
 
   display: flex;

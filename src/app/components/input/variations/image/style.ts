@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const InputStyled = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   text-align: center;
   width: 100%;
 
@@ -26,7 +26,7 @@ export const InputStyled = styled.div`
   #image-input {
     border: solid 2px #101010;
     border-radius: 8px;
-    padding: 16px;
+    padding: 18px;
     background: #404040;
   }
 `;

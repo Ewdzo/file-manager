@@ -22,7 +22,7 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
                     <p className="md:text-start text-center text-greyNFM max-w-[530px]">
                         Para criação de um novo usuário, defina as credenciais do usuário e informações para contato.
                     </p>
-                    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 w-3/4 lg:w-full lg:justify-evenly">
+                    <div className="flex flex-col lg:flex-row gap-4 lg:gap-8 sm:w-3/4 lg:w-full lg:justify-evenly">
                         <div className="flex flex-col gap-4 items-center">
                             <Input
                                 name="Usuário"

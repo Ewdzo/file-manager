@@ -6,7 +6,7 @@ export const ContainerStyled = styled.div`
   border: solid 2px #101010;
   border-radius: 0.5rem;
 
-  font-size: 12px;
+  font-size: 16px;
   color: #fff;
 
   display: flex;

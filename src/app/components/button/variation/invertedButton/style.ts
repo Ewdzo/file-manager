@@ -7,6 +7,7 @@ export const ButtonStyled = styled.button`
   padding: 0.5em 1.5em;
   min-width: 100px;
 
+  font-size: 18px;
   color: #101010;
 
   display: flex;
