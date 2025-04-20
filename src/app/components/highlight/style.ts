@@ -25,12 +25,17 @@ export const HighlightStyled = styled.div<{ $image: string }>`
     background-position: center;
     background-size: cover;
     max-height: 615px;
-    box-shadow: inset 0 0 0 1000px #000000BB;
+    box-shadow: inset 0 0 0 1000px #000000bb;
     mask-image: linear-gradient(
       0deg,
       #00000000,
       #00000080 10%,
       rgb(0, 0, 0) 100%
     );
+  }
+
+  @media (min-width: 1024px) {
+    justify-content: end;
+    padding: 3em 0;
   }
 `;
