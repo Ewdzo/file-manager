@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HighlightStyled = styled.div<{ $image: string }>`
+export const BannerStyled = styled.div<{ $image: string }>`
   min-height: 600px;
   position: relative;
   color: #fdfdfd;
