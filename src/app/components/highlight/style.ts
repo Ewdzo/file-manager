@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HighlightStyled = styled.div`
   width: 100%;
-  padding: 0 0.5em;
+  padding: 1em 0.5em;
   gap: 1em;
 
   display: flex;
@@ -59,6 +59,8 @@ export const HighlightStyled = styled.div`
   }
 
   @media (min-width: 1024px) {
+    padding: 1em;
+    
     #search-bar {
       justify-content: end;
     }
