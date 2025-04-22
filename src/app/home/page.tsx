@@ -4,6 +4,7 @@ import { Highlight } from "@/app/components/highlight";
 import { HomeScreen } from "@/app/components/screens";
 import "@/app/globals.css";
 import { mockFile, mockSection } from "@/app/helper/mock";
+import { Footer } from "../components/footer";
 
 
 export default function Home() {
@@ -11,7 +12,8 @@ export default function Home() {
     <HomeScreen>
       <Header />
       <Banner file={mockFile} />
-      <Highlight sections={[mockSection]}/>
+      <Highlight sections={[mockSection]} />
+      <Footer />
     </HomeScreen>
   );
 }
