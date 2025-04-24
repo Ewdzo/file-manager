@@ -25,7 +25,7 @@ export const BannerStyled = styled.div<{ $image: string }>`
     background-position: center;
     background-size: cover;
     max-height: 615px;
-    box-shadow: inset 0 0 0 1000px #000000bb;
+    box-shadow: inset 0 0 0 1000px #00000050;
     mask-image: linear-gradient(
       0deg,
       #00000000,
