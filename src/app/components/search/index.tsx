@@ -5,6 +5,7 @@ import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../button";
+import { BigButton } from "../button/variation/bigButton";
 import { Checkbox } from "../checkbox";
 import { AnchorIcon } from "../icon/variations/anchor";
 import { SearchStyled } from "./style";
@@ -30,20 +31,23 @@ export const Search = () => {
 
     return (
         <SearchStyled>
-            <div id="search-bar">
-                <h1 className="text-whiteNFM">Buscar Arquivo</h1>
-                <div className="flex justify-center items-center gap-2 w-full">
-                    <input type="text" className="text-greyNFM flex-grow" placeholder="Digite aqui..." onChange={(e) => setFileQuery(e.target.value.toLocaleLowerCase())} />
-                    <label htmlFor="show-tags" className="bg-whiteNFM rounded-sm w-fit block p-1">
-                        <Image
-                            alt="Settings Icon"
-                            src={"/assets/icons/settings.svg"}
-                            height={20}
-                            width={20}
-                        />
-                    </label>
-                    <input type="checkbox" id="show-tags" onChange={(e) => setIsAdvancedFiltering(e.target.checked)} />
+            <div className="flex w-full items-center flex-col gap-4">
+                <div id="search-bar">
+                    <h1 className="text-whiteNFM">Buscar Arquivo</h1>
+                    <div className="flex justify-center items-center gap-2 w-full">
+                        <input type="text" className="text-greyNFM flex-grow" placeholder="Digite aqui..." onChange={(e) => setFileQuery(e.target.value.toLocaleLowerCase())} />
+                        <label htmlFor="show-tags" className="bg-whiteNFM rounded-sm w-fit block p-1">
+                            <Image
+                                alt="Settings Icon"
+                                src={"/assets/icons/settings.svg"}
+                                height={20}
+                                width={20}
+                            />
+                        </label>
+                        <input type="checkbox" id="show-tags" onChange={(e) => setIsAdvancedFiltering(e.target.checked)} />
+                    </div>
                 </div>
+                <BigButton image={{ path: "/assets/icons/upload.svg", alt: "Upload Icon" }}>Enviar Arquivo</BigButton>
             </div>
 
             {
