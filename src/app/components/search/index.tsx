@@ -7,11 +7,12 @@ import { useState } from "react";
 import { Button } from "../button";
 import { BigButton } from "../button/variation/bigButton";
 import { Checkbox } from "../checkbox";
+import { Divider } from "../divider";
 import { AnchorIcon } from "../icon/variations/anchor";
-import { SearchStyled } from "./style";
+import { AdvancedFiltering, FileSection, SearchBar, SearchContainer, SearchStyled } from "./style";
 
 export const Search = () => {
-    const sections = [mockSection];
+    const sections = [mockSection, mockSection];
 
     const [isAdvancedFiltering, setIsAdvancedFiltering] = useState<boolean>(false);
 
@@ -31,12 +32,12 @@ export const Search = () => {
 
     return (
         <SearchStyled>
-            <div className="flex w-full items-center flex-col gap-4">
-                <div id="search-bar">
+            <SearchContainer className="w-full flex items-center justify-center flex-col gap-4 lg:flex-row lg:justify-between">
+                <SearchBar className="z-10">
                     <h1 className="text-whiteNFM">Buscar Arquivo</h1>
-                    <div className="flex justify-center items-center gap-2 w-full">
+                    <div className="flex justify-center items-center gap-2 w-full lg:justify-start">
                         <input type="text" className="text-greyNFM flex-grow" placeholder="Digite aqui..." onChange={(e) => setFileQuery(e.target.value.toLocaleLowerCase())} />
-                        <label htmlFor="show-tags" className="bg-whiteNFM rounded-sm w-fit block p-1">
+                        <label htmlFor="show-tags" className="bg-whiteNFM rounded-sm w-fit block p-1 lg:hidden">
                             <Image
                                 alt="Settings Icon"
                                 src={"/assets/icons/settings.svg"}
@@ -46,22 +47,22 @@ export const Search = () => {
                         </label>
                         <input type="checkbox" id="show-tags" onChange={(e) => setIsAdvancedFiltering(e.target.checked)} />
                     </div>
-                </div>
-                <BigButton image={{ path: "/assets/icons/upload.svg", alt: "Upload Icon" }}>Enviar Arquivo</BigButton>
-            </div>
-
-            {
-                <div id={"advanced-filtering"} className={!isAdvancedFiltering ? "hidden" : "flex"}>
-                    <div className="flex flex-col align-center text-center gap-2">
-                        <h2 className="text-whiteNFM">Categorias</h2>
+                </SearchBar>
+                <BigButton className="z-10" image={{ path: "/assets/icons/upload.svg", alt: "Upload Icon" }}>Enviar Arquivo</BigButton>
+            </SearchContainer>
+            <div className="lg:flex lg:flex-row-reverse lg:justify-between">
+                <AdvancedFiltering className={!isAdvancedFiltering ? "hidden" : "flex"}>
+                    <h1 className="text-whiteNFM">Filtragem Avançada</h1>
+                    <div className="flex flex-col align-center text-center gap-2 lg:w-[300px] lg:mb-4">
+                        <h2 className="text-whiteNFM lg:text-start">Categorias</h2>
                         <div id="tag-filter">
                             <input type="text" className="text-greyNFM" onChange={(e) => setFilterTagQuery(e.target.value.toLocaleLowerCase())} />
                             <div className="flex flex-col w-full gap-3">
                                 {filteredTags.slice(0, maxTags).map((tag, index) => (
-                                    <div key={index} className="flex gap-2 w-full items-center">
+                                    <div key={index} className="flex gap-2 items-center">
                                         <Checkbox id={"filter-" + tag.name} onChange={(e) => { e.target.checked ? setTagQuery([...tagQuery, tag]) : setTagQuery(tagQuery.filter(i => i != tag)) }} />
-                                        <label htmlFor={"filter-" + tag.name} className="w-full">
-                                            <div style={{ background: tag.color }} className="flex-grow rounded-sm">{tag.name}</div>
+                                        <label htmlFor={"filter-" + tag.name} className="w-fit">
+                                            <div style={{ background: tag.color }} className="flex-grow rounded-sm px-8">{tag.name}</div>
                                         </label>
                                     </div>
                                 ))}
@@ -74,7 +75,7 @@ export const Search = () => {
                         </div>
                     </div>
                     <div className="flex flex-col align-center text-center gap-2">
-                        <h2 className="text-whiteNFM">Extensões</h2>
+                        <h2 className="text-whiteNFM lg:text-start">Extensões</h2>
                         <div id="tag-filter">
                             <input type="text" className="text-greyNFM" onChange={(e) => setFilterExtensionQuery(e.target.value.toLocaleLowerCase())} />
                             <div className="flex flex-col w-full gap-3">
@@ -94,32 +95,35 @@ export const Search = () => {
                             </div>
                         </div>
                     </div>
+                </AdvancedFiltering>
+                <Divider className="hidden lg:block"/>
+                <div className="w-fit lg:max-w-80%">
+                    {
+                        sections?.map(({ title, files }, index) => {
+                            const filteredFiles = files
+                                .filter(file => {
+                                    if (!tagQuery.length) return true;
+                                    return file.tags.some(tag => tagQuery.includes(tag))
+                                })
+                                .filter(file => {
+                                    if (!extensionQuery.length) return true;
+                                    return extensionQuery.some(extension => file.path.endsWith(extension.name))
+                                }
+                                )
+                                .filter(file => file.name.toLocaleLowerCase().includes(fileQuery));
+
+                            return (
+                                <FileSection key={index} className={filteredFiles.length ? "flex" : "hidden"}>
+                                    <h1 className="text-whiteNFM">{title}</h1>
+                                    <div className="flex gap-4 flex-wrap">
+                                        {filteredFiles.map((file, index) => <AnchorIcon key={index} file={file} />)}
+                                    </div>
+                                </FileSection>
+                            )
+                        })
+                    }
                 </div>
-            }
-            {
-                sections?.map(({ title, files }, index) => {
-                    return (
-                        <section key={index}>
-                            <h1 className="text-whiteNFM">{title}</h1>
-                            <div className="flex gap-4 flex-wrap" id="movie-container">
-                                {
-                                    files
-                                        .filter(file => {
-                                            if (!tagQuery.length) return true;
-                                            return file.tags.some(tag => tagQuery.includes(tag))
-                                        })
-                                        .filter(file => {
-                                            if (!extensionQuery.length) return true;
-                                            return extensionQuery.some(extension => file.path.endsWith(extension.name))
-                                        }
-                                        )
-                                        .filter(file => file.name.toLocaleLowerCase().includes(fileQuery))
-                                        .map((file, index) => <AnchorIcon key={index} file={file} />)}
-                            </div>
-                        </section>
-                    )
-                })
-            }
+            </div>
         </SearchStyled>
     )
 }

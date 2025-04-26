@@ -9,11 +9,13 @@ import { Footer } from "../components/footer";
 
 export default function Home() {
   return (
-    <HomeScreen>
+    <>
       <Header />
-      <Banner file={mockFile} />
-      <Highlight sections={[mockSection]} />
+      <HomeScreen>
+        <Banner file={mockFile} />
+        <Highlight sections={[mockSection]} />
+      </HomeScreen>
       <Footer />
-    </HomeScreen>
+    </>
   );
 }

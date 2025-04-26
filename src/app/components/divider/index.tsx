@@ -2,8 +2,8 @@
 
 import { DividerStyled } from "./style";
 
-export const Divider = () => {
+export const Divider = ({ className }: { className: string }) => {
     return (
-        <DividerStyled />
+        <DividerStyled className={className} />
     )
 }

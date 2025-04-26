@@ -26,8 +26,8 @@ export const BigButtonStyled = styled.button`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    min-width: auto;
+    
+    min-width: fit-content;
 
     gap: 0.75em;
     padding: 0.8em;
