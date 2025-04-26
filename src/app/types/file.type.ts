@@ -1,4 +1,4 @@
-import { Category } from "./category.type";
+import { Tag } from "./tag.type";
 
 export type File = {
     name: string;
@@ -8,5 +8,5 @@ export type File = {
     banner: string;
     logo: string;
     description: string;
-    categories: Category[];
+    tags: Tag[];
 }

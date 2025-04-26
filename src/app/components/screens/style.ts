@@ -43,6 +43,7 @@ export const HomeMain = styled.main`
   width: 100%;
   height: 100%;
   min-height: 100vh;
+  padding: 1em 0;
 
   display: flex;
   flex-direction: column;

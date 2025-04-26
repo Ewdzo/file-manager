@@ -1,4 +1,15 @@
 import { File } from "../types/file.type";
+import { Tag } from "../types/tag.type";
+
+export const mockTag : Tag = {
+  name: "Filmes",
+  color: "#FFAA00"
+}
+
+export const mockExtension : Tag = {
+  name: ".mkv",
+  color: "#0080AA"
+}
 
 export const mockFile: File = {
   name: "The Batman (2022)",
@@ -9,7 +20,7 @@ export const mockFile: File = {
   logo: "/files/logo/The_Batman_mkv.png",
   description:
     "Após dois anos espreitando as ruas como Batman, Bruce Wayne se encontra nas profundezas mais sombrias de Gotham City. Com poucos aliados confiáveis, o vigilante solitário se estabelece como a personificação da vingança para a população.",
-  categories: [],
+  tags: [ mockTag ],
 };
 
 export const mockSection = {
