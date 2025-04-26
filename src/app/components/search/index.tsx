@@ -4,6 +4,7 @@ import { mockExtension, mockSection, mockTag } from "@/app/helper/mock";
 import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
 import { useState } from "react";
+import { Button } from "../button";
 import { Checkbox } from "../checkbox";
 import { AnchorIcon } from "../icon/variations/anchor";
 import { SearchStyled } from "./style";
@@ -46,7 +47,7 @@ export const Search = () => {
             </div>
 
             {
-                <div id={"advanced-filtering"} className={!isAdvancedFiltering ? "hidden" : ""}>
+                <div id={"advanced-filtering"} className={!isAdvancedFiltering ? "hidden" : "flex"}>
                     <div className="flex flex-col align-center text-center gap-2">
                         <h2 className="text-whiteNFM">Categorias</h2>
                         <div id="tag-filter">
@@ -62,7 +63,7 @@ export const Search = () => {
                                 ))}
                                 {maxTags < filteredTags.length &&
                                     <div className="flex gap-2 w-full justify-center">
-                                        <button style={{ background: "#FDFDFD" }} className="px-2 py-1 rounded-sm" onClick={() => setMaxTags(tags.length)}>Mostrar Todos</button>
+                                        <Button onClick={() => setMaxTags(tags.length)}>Mostrar Todos</Button>
                                     </div>
                                 }
                             </div>
@@ -83,7 +84,7 @@ export const Search = () => {
                                 ))}
                                 {maxExtensions < filteredExtensions.length &&
                                     <div className="flex gap-2 w-full justify-center">
-                                        <button style={{ background: "#FDFDFD" }} className="px-2 py-1 rounded-sm" onClick={() => setMaxExtensions(filteredExtensions.length)}>Mostrar Todos</button>
+                                        <Button onClick={() => setMaxExtensions(filteredExtensions.length)}>Mostrar Todos</Button>
                                     </div>
                                 }
                             </div>

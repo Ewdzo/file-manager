@@ -76,7 +76,7 @@ export const SearchStyled = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1em;
-
+    
     align-items: center;
     justify-content: center;
 
@@ -85,13 +85,13 @@ export const SearchStyled = styled.div`
       justify-content: center;
       gap: 1em;
       flex-wrap: wrap;
+      max-width: 650px;
     }
   }
 
   #advanced-filtering {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: start;
     justify-content: center;
     gap: 0.5em;
     width: 100%;
