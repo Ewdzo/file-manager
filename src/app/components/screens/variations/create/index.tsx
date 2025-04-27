@@ -1,9 +1,97 @@
+import { Button } from "@/app/components/button"
 import { Divider } from "@/app/components/divider"
 import { Input } from "@/app/components/input"
+import { Server } from "@/app/types/server.type"
+import { User } from "@/app/types/user.type"
 import Image from "next/image"
+import { ChangeEvent, useState } from "react"
 import { ArticleStyled } from "./style"
 
 export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) => {
+    const defaultAdmin: User = { name: "admin", nickname: "Administrator", password: "admin", email: "johndoe@gmail.com", photo: "/assets/images/default_user.png" };
+    const defaultServer: Server = { IP: "127.0.0.1", port: "3000", name: "Servidor do Administrador" };
+
+    const [adminUser, setAdminUser] = useState<User>(defaultAdmin);
+    const [adminServer, setAdminServer] = useState<Server>(defaultServer);
+
+    const handleUserName = (e: ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.value;
+        if (!name.length) {
+            setAdminUser({ ...adminUser, name: defaultAdmin.name });
+            return;
+        }
+
+        setAdminUser({ ...adminUser, name: name });
+    };
+
+    const handleUserNickName = (e: ChangeEvent<HTMLInputElement>) => {
+        const nickname = e.target.value;
+        if (!nickname.length) {
+            setAdminUser({ ...adminUser, nickname: defaultAdmin.nickname });
+            return;
+        }
+
+        setAdminUser({ ...adminUser, nickname: nickname });
+    };
+
+    const handleUserPassword = (e: ChangeEvent<HTMLInputElement>) => {
+        const password = e.target.value;
+        if (!password.length) {
+            setAdminUser({ ...adminUser, password: defaultAdmin.password });
+            return;
+        }
+
+        setAdminUser({ ...adminUser, password: password });
+    };
+
+    const handlePasswordConfirmation = (e: ChangeEvent<HTMLInputElement>) => {
+        const password = e.target.value;
+        if (!password.length || password != adminUser.password) {
+            // TO-DO
+            // return;
+        }
+
+        // setAdminUser({...adminUser, password: e.target.value});
+    };
+
+    const handleUserEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        const email = e.target.value;
+        if (!email.length) {
+            setAdminUser({ ...adminUser, email: defaultAdmin.email });
+            return;
+        }
+
+        setAdminUser({ ...adminUser, email: email });
+    };
+
+    const handleServerIP = (e: ChangeEvent<HTMLInputElement>) => {
+        const ip = e.target.value;
+        if (!ip.length) {
+            setAdminServer({ ...adminServer, IP: defaultServer.IP });
+            return;
+        }
+
+        setAdminServer({ ...adminServer, IP: ip });
+    };
+
+    const handleServerPort = (e: ChangeEvent<HTMLInputElement>) => {
+        const port = e.target.value;
+        if (!port.length) {
+            setAdminServer({ ...adminServer, port: defaultServer.port });
+            return;
+        }
+
+        setAdminServer({ ...adminServer, port: port });
+    };
+
+    const handleCreate = () => {
+        fetch("/api/setup", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json ' },
+            body: JSON.stringify({ admin: adminUser, server: adminServer })
+        }).then(() => { window.location.reload() });
+    }
+
     return (
         <>
             <h1>Criar um Novo</h1>
@@ -27,6 +115,7 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                 name="Usuário Administrador"
                                 type="text"
                                 id="admin_name"
+                                onChange={handleUserName}
                                 placeholder="Ex: admin"
                                 className="max-w-[200px]"
                             />
@@ -34,6 +123,7 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                 name="Apelido"
                                 type="text"
                                 id="admin_nickname"
+                                onChange={handleUserNickName}
                                 placeholder="Ex: Administrador"
                                 className="max-w-[200px]"
                             />
@@ -41,6 +131,7 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                 name="Senha do Administrador"
                                 type="password"
                                 id="admin_password"
+                                onChange={handleUserPassword}
                                 placeholder="********"
                                 className="max-w-[200px]"
                             />
@@ -48,6 +139,7 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                 name="Confirmação de Senha"
                                 type="password"
                                 id="admin_password_confirmation"
+                                onChange={handlePasswordConfirmation}
                                 placeholder="********"
                                 className="max-w-[200px]"
                             />
@@ -55,6 +147,7 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                 name="E-mail"
                                 type="text"
                                 id="admin_email"
+                                onChange={handleUserEmail}
                                 placeholder="Ex: admin@doe.com"
                                 className="max-w-[200px]"
                             />
@@ -68,6 +161,7 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                     id="server_ip"
                                     placeholder="Endereço IPv4 do Computador"
                                     className="max-w-[200px]"
+                                    onChange={handleServerIP}
                                 />
                                 <Input
                                     name="Porta"
@@ -75,9 +169,13 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
                                     id="server_port"
                                     placeholder="Ex: 3000"
                                     className="max-w-[100px]"
+                                    onChange={handleServerPort}
                                 />
                             </div>
                             <div className="flex flex-col gap-4 items-center">
+                                <Button onClick={handleCreate}>
+                                    Cadastrar-se
+                                </Button>
                                 {children}
                             </div>
                         </div>

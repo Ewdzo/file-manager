@@ -50,9 +50,6 @@ export default function SetupScreen() {
             {
                 option == "create" && (
                     <Create>
-                        <Button onClick={() => { }}>
-                            Cadastrar-se
-                        </Button>
                         <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
                             Voltar
                         </GreyButton>
