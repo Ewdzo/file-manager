@@ -28,9 +28,9 @@ export const Details = ({ file }: DetailsProps) => {
             <div className="flex flex-col gap-4 lg:w-1/2">
                 <div className="flex flex-col items-center gap-2 lg:flex-row">
                     <h1 className="text-whiteNFM">{file.name}</h1>
-                    <div className="flex gap-2 flex-wrap">
-                        <div className="rounded-sm px-2 py-0.5 w-fit" style={{ background: file.extension.color }}>{file.extension.name}</div>
-                        {file.tags.map((tag, index) => (<div key={index} className="rounded-sm px-4 py-0.5 w-fit" style={{ background: tag.color }}>{tag.name}</div>))}
+                    <div className="flex gap-2 flex-wrap text-xs">
+                        <div className="rounded-sm px-2 py-0.5 w-fit text-xs" style={{ background: file.extension.color }}>{file.extension.name}</div>
+                        {file.tags.map((tag, index) => (<div key={index} className="rounded-sm px-4 py-0.5 w-fit text-xs" style={{ background: tag.color }}>{tag.name}</div>))}
                     </div>
                 </div>
                 <div className="p-4 lg:p-0">
