@@ -9,6 +9,7 @@ import { Option } from "@/app/components/option";
 import { CreateOption, JoinOption } from "@/app/components/option/options";
 import { Create } from "@/app/components/screens/variations/create";
 import { Join } from "@/app/components/screens/variations/join";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function SetupScreen() {
@@ -18,7 +19,14 @@ export default function SetupScreen() {
         <Container className="relative z-10">
             {!option && (
                 <>
-                    <h1>Nexus</h1>
+                    <div className="flex gap-1 items-center">
+                        <Image
+                            src={"/assets/icons/nexus.svg"}
+                            alt="Nexus Icon"
+                            width={50}
+                            height={50} />
+                        <h1>Nexus</h1>
+                    </div>
                     <ArticleStyled>
                         <Option
                             {...CreateOption}

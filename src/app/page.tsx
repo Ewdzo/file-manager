@@ -1,11 +1,11 @@
 import { DefaultScreen } from "./components/screens";
-import WelcomeScreen from "./components/screens/variations/welcome";
+import SetupScreen from "./components/screens/variations/setup";
 
 export default function Home() {
   return (
     <DefaultScreen>
-      {/* <SetupScreen /> */}
-      <WelcomeScreen />
+      <SetupScreen />
+      {/* <WelcomeScreen /> */}
     </DefaultScreen >
   );
 }

@@ -17,6 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
+      <head>
+        <link rel="shortcut icon" href="/assets/icons/nexus.svg" type="image/x-icon" />
+      </head>
       <body className={"antialiased " + abel.className}>
         {children}
       </body>

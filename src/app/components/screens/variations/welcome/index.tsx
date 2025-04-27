@@ -8,6 +8,7 @@ import { Container } from "@/app/components/container";
 import { Divider } from "@/app/components/divider";
 import { Option } from "@/app/components/option";
 import { LoginOption, RegisterOption } from "@/app/components/option/options";
+import Image from "next/image";
 import { useState } from "react";
 import { Login } from "../login";
 import { Register } from "../register";
@@ -19,7 +20,14 @@ export default function WelcomeScreen() {
         <Container className="relative z-10">
             {!option && (
                 <>
-                    <h1>Nexus</h1>
+                    <div className="flex gap-1 items-center">
+                        <Image
+                            src={"/assets/icons/nexus.svg"}
+                            alt="Nexus Icon"
+                            width={50}
+                            height={50} />
+                        <h1>Nexus</h1>
+                    </div>
                     <ArticleStyled>
                         <Option
                             {...LoginOption}
