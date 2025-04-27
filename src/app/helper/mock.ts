@@ -11,12 +11,12 @@ export const mockUser : User = {
 
 export const mockTag : Tag = {
   name: "Filmes",
-  color: "#FFAA00"
+  color: "#6BE2FD"
 }
 
 export const mockExtension : Tag = {
   name: ".mkv",
-  color: "#0080AA"
+  color: "#2DFF96"
 }
 
 export const mockFile: File = {

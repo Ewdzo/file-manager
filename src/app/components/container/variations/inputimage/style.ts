@@ -26,7 +26,7 @@ export const ImageInputLikeContainerStyled = styled.div<{ $text?: string }>`
     position: relative;
     border: solid 2px #101010;
     border-radius: 8px;
-    padding: ${(props) => (props.$text ? "11px 11px 0px 11px" : "18px")};
+    padding: ${(props) => (props.$text ? "0px 11px 0px 11px" : "18px")};
     background: #404040;
 
     display: flex;
