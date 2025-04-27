@@ -24,7 +24,7 @@ export const Server = () => {
                                     <label className="text-greyNFM">{server.name}</label>
                                     <InputLikeContainer className="!px-4 flex justify-center">
                                         <div className="min-w-[50px] text-greyNFM flex justify-evenly items-center w-full">
-                                            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg" style={{color: "#2DFF96"}}>
+                                            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ color: "#2DFF96" }}>
                                                 <ellipse cx="6" cy="6.99987" rx="6" ry="6.31579" fill="currentColor" />
                                             </svg>
                                             <p>0 ms</p>
@@ -40,25 +40,41 @@ export const Server = () => {
                     </div>
                 </ServerBar>
             </ServerContainer>
-            <div className="flex flex-col gap-2 lg:p-8">
+            <div className="flex flex-col gap-2 lg:p-8 pb-8">
                 <div className="flex flex-col gap-2 items-center lg:flex-row">
                     <Input
-                        name="Nome da Servidor"
+                        name="Nome do Servidor"
                         type="text"
                         id="server-name"
                         placeholder=""
                         className="max-w-[275px] lg:!items-start lg:!text-start"
                     />
+                </div>
+                <div className="flex flex-col gap-2 items-center lg:flex-row">
+                    <Input
+                        name="Endereço de IP"
+                        type="text"
+                        id="server_ip"
+                        placeholder="127.0.0.1"
+                        className="max-w-[200px] lg:!items-start lg:!text-start"
+                    />
+                    <Input
+                        name="Porta"
+                        type="text"
+                        id="server_port"
+                        placeholder="Ex: 3000"
+                        className="max-w-[100px] "
+                    />
                     <div className="flex flex-col w-fit items-center">
-                        <label className="text-whiteNFM">Itens</label>
+                        <label className="text-whiteNFM">Status</label>
                         <InputLikeContainer className="!px-4 flex justify-center">
-                            <div className="text-xs rounded-sm px-2 py-0.5 min-w-[50px] text-blackNFM" style={{ background: "#2DFF96" }}>0</div>
+                            ✅
                         </InputLikeContainer>
                     </div>
                 </div>
                 <div className="flex flex-col gap-2 items-center lg:w-fit lg:items-start min-w-[155px]">
                     <Input
-                        name="Cor da Servidor"
+                        name="Cor do Servidor"
                         type="text"
                         id="server-color"
                         placeholder="#FFFFFF"
@@ -90,7 +106,6 @@ export const Server = () => {
                     </InputLikeContainer>
                 </div>
             </div>
-
         </ServerStyled>
     )
 }
