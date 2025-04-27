@@ -50,14 +50,14 @@ export const Details = ({ file }: DetailsProps) => {
             </div>
             <Divider />
             <div className="flex flex-col items-center justify-center gap-2 text-whiteNFM lg:flex-grow lg:items-start">
-                <div className="w-full flex flex-col items-center lg:flex-row lg:gap-4">
+                <div className="w-full flex flex-col gap-2 items-center lg:flex-row lg:gap-4">
                     <Input
                         name="Nome do Arquivo"
                         type="text"
                         id="file-name"
                         defaultValue={file.name}
                         placeholder={file.name}
-                        className="max-w-[275px] !items-start !text-start"
+                        className="max-w-[275px] lg:!items-start lg:!text-start"
                     />
                     <div className="flex gap-8 lg:gap-4">
                         <div>
@@ -134,9 +134,9 @@ export const Details = ({ file }: DetailsProps) => {
                         id="file-description"
                         defaultValue={file.description}
                         placeholder={file.description}
-                        className="text-sm !items-start !text-start"
+                        className="text-sm lg:!items-start lg:!text-start"
                     />
-                    <div className="w-[275px]">
+                    <div className="w-[275px] text-center lg:text-start">
                         <label className="text-whiteNFM">Extensão</label>
                         <InputLikeContainer className="w-full flex flex-wrap gap-2 items-center">
                             {file.tags.map((tag, index) => (
@@ -146,7 +146,7 @@ export const Details = ({ file }: DetailsProps) => {
                         </InputLikeContainer>
                     </div>
                 </div>
-                <div className="w-[275px]">
+                <div className="w-[275px] text-center lg:text-start">
                     <label className="text-whiteNFM">Ações</label>
                     <InputLikeContainer className="w-full flex flex-wrap gap-2 justify-center items-start p-4 py-8! gap-4 lg:!w-fit lg:!px-2">
                         <button className="flex flex-col items-center justify-center text-center gap-2">
