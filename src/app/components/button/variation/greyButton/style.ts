@@ -8,7 +8,7 @@ export const GreyButtonStyled = styled.button`
 
   border-radius: 0.4rem;
   padding: 0.4em;
-  min-width: 100px;
+  min-width: 125px;
 
 
   display: flex;

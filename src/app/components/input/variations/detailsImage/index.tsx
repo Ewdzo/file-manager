@@ -8,11 +8,11 @@ export type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
     name: string;
     id: string;
     className?: string;
-    text?: string;
+    defaultValue: string;
 }
 
-export const ImageInput = (props: InputProps) => {
-    const [image] = useState<string>("/assets/images/default_user.png");
+export const DetailsImageInput = (props: InputProps) => {
+    const [image, setImage] = useState<string>(props.defaultValue);
     const [selectedImage, setSelectedImage] = useState();
 
     const imageChange = (e: any) => {
@@ -21,21 +21,21 @@ export const ImageInput = (props: InputProps) => {
         }
     };
 
-    const { name, id, className, text } = props;
+    const { name, id, className } = props;
     return (
         <InputStyled className={className}>
             <label className="text-whiteNFM" htmlFor={id}>{name}</label>
             <label id="image-input" htmlFor={id}>
-                <Image
-                    src={selectedImage ? URL.createObjectURL(selectedImage) : image}
-                    alt="User Icon"
-                    width={100}
-                    height={100}
-                    className="rounded-lg aspect-square"
-                />
-                <p className="text-sm">{text}</p>
+                <div>
+                    <Image
+                        src={selectedImage ? URL.createObjectURL(selectedImage) : image}
+                        alt="User Icon"
+                        width={100}
+                        height={100}
+                    />
+                </div>
             </label>
-            <input {...props} className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
+            <input {...props} disabled className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
         </InputStyled>
     )
 }
