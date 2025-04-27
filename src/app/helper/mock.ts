@@ -19,6 +19,11 @@ export const mockExtension : Tag = {
   color: "#2DFF96"
 }
 
+export const mockServer : Tag = {
+  name: ".mkv",
+  color: "#2DFF96"
+}
+
 export const mockFile: File = {
   name: "The Batman (2022)",
   size: "2.47GB",

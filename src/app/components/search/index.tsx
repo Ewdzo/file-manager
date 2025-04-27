@@ -97,7 +97,7 @@ export const Search = () => {
                     </div>
                 </AdvancedFiltering>
                 <Divider className="hidden lg:block"/>
-                <div className="w-fit lg:max-w-80%">
+                <div className="w-full">
                     {
                         sections?.map(({ title, files }, index) => {
                             const filteredFiles = files

@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const TagStyled = styled.div`
+export const ServerStyled = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 2em;
 `;
 
-export const TagBar = styled.div`
+export const ServerBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,21 +21,6 @@ export const TagBar = styled.div`
 
   label:hover {
     cursor: pointer;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    height: 38px;
-    padding: 8px;
-    padding-left: 35px;
-
-    border-radius: 8px;
-    max-width: 400px;
-
-    background: url(/assets/icons/search.svg) #404040 no-repeat;
-    background-size: 16px;
-    background-position-y: center;
-    background-position-x: 10px;
   }
 
   @media (min-width: 1024px) {
@@ -57,7 +42,7 @@ export const TagBar = styled.div`
 
       font-size: 24px;
 
-      background: url(/assets/icons/Tag.svg) #404040 no-repeat;
+      background: url(/assets/icons/Server.svg) #404040 no-repeat;
       background-size: 24px;
       background-position-y: center;
       background-position-x: 20px;
@@ -65,7 +50,7 @@ export const TagBar = styled.div`
   }
 `;
 
-export const TagContainer = styled.div`
+export const ServerContainer = styled.div`
   width: 100%;
 
   padding: 1em 0.5em;
