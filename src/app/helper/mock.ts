@@ -3,7 +3,8 @@ import { Tag } from "../types/tag.type";
 import { User } from "../types/user.type";
 
 export const mockUser : User = {
-  name: "John Doe",
+  name: "john_doe",
+  nickname: "John Doe",
   email: "johndoe@noone.com",
   password: "fortnite",
   photo: "/assets/images/default_user.png"

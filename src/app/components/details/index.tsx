@@ -86,7 +86,7 @@ export const Details = ({ file }: DetailsProps) => {
                             disabled
                             defaultValue={file.owner.photo}
                             className="max-w-[100px]"
-                            text={file.owner.name}
+                            text={file.owner.nickname}
                         />
                         <ImageInputLikeContainer
                             name="Enviado"
