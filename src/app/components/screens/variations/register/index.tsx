@@ -1,10 +1,76 @@
+import { Button } from "@/app/components/button"
 import { Divider } from "@/app/components/divider"
 import { Input } from "@/app/components/input"
 import { ImageInput } from "@/app/components/input/variations/image"
+import { User } from "@/app/types/user.type"
 import Image from "next/image"
+import { ChangeEvent, useState } from "react"
 import { ArticleStyled } from "./style"
 
 export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>) => {
+    const defaultUser: User = { name: "john_doe", nickname: "John Doe", password: "", email: "johndoe@gmail.com", photo: "/assets/images/default_user.png" };
+    const [user, setUser] = useState<User>(defaultUser);
+
+    const handleUserName = (e: ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.value;
+        if (!name.length) {
+            setUser({ ...user, name: defaultUser.name });
+            return;
+        }
+
+        setUser({ ...user, name: name });
+    };
+
+    const handleUserNickName = (e: ChangeEvent<HTMLInputElement>) => {
+        const nickname = e.target.value;
+        if (!nickname.length) {
+            setUser({ ...user, nickname: defaultUser.nickname });
+            return;
+        }
+
+        setUser({ ...user, nickname: nickname });
+    };
+
+    const handleUserPassword = (e: ChangeEvent<HTMLInputElement>) => {
+        const password = e.target.value;
+        if (!password.length) {
+            setUser({ ...user, password: defaultUser.password });
+            return;
+        }
+
+        setUser({ ...user, password: password });
+    };
+
+    const handlePasswordConfirmation = (e: ChangeEvent<HTMLInputElement>) => {
+        const password = e.target.value;
+        if (!password.length || password != user.password) {
+            // TO-DO
+            // return;
+        }
+
+        // setUser({...user, password: e.target.value});
+    };
+
+    const handleUserEmail = (e: ChangeEvent<HTMLInputElement>) => {
+        const email = e.target.value;
+        if (!email.length) {
+            setUser({ ...user, email: defaultUser.email });
+            return;
+        }
+
+        setUser({ ...user, email: email });
+    };
+
+    const handleRegister = () => {
+        fetch("/api/register", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json ' },
+            body: JSON.stringify({ user: user })
+        }).then((data) => {
+            window.location.reload()
+         }).catch(e => alert(e));
+    }
+
     return (
         <>
             <h1>Cadastro</h1>
@@ -29,6 +95,7 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
                                 type="text"
                                 id="username"
                                 placeholder="Insira seu nome de usuário"
+                                onChange={handleUserName}
                                 className="max-w-[275px]"
                             />
                             <Input
@@ -36,6 +103,7 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
                                 type="text"
                                 id="nickname"
                                 placeholder="Insira um apelido para seu usuário"
+                                onChange={handleUserNickName}
                                 className="max-w-[275px]"
                             />
                             <Input
@@ -43,6 +111,7 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
                                 type="password"
                                 id="password"
                                 placeholder="********"
+                                onChange={handleUserPassword}
                                 className="max-w-[275px]"
                             />
                             <Input
@@ -50,12 +119,14 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
                                 type="password"
                                 id="password_confirmation"
                                 placeholder="********"
+                                onChange={handlePasswordConfirmation}
                                 className="max-w-[275px]"
                             />
                             <Input
                                 name="E-mail"
                                 type="text"
                                 id="email"
+                                onChange={handleUserEmail}
                                 placeholder="Ex: user@doe.com"
                                 className="max-w-[275px]"
                             />
@@ -70,6 +141,9 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
                                 />
                             </div>
                             <div className="flex flex-col gap-4 items-center">
+                                <Button onClick={handleRegister}>
+                                    Cadastrar-se
+                                </Button>
                                 {children}
                             </div>
                         </div>

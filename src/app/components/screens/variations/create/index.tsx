@@ -89,7 +89,9 @@ export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) =
             method: "POST",
             headers: { 'Content-Type': 'application/json ' },
             body: JSON.stringify({ admin: adminUser, server: adminServer })
-        }).then(() => { window.location.reload() });
+        })
+        .then(() => { window.location.reload() })
+        .catch(e => alert(e));
     }
 
     return (

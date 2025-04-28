@@ -1,9 +1,7 @@
 "use client";
 
 import { ArticleStyled } from "@/app/components/article/style";
-import { Button } from "@/app/components/button";
 import { GreyButton } from "@/app/components/button/variation/greyButton";
-import { InvertedButton } from "@/app/components/button/variation/invertedButton";
 import { Container } from "@/app/components/container";
 import { Divider } from "@/app/components/divider";
 import { Option } from "@/app/components/option";
@@ -43,9 +41,6 @@ export default function WelcomeScreen() {
             )}
             {option == "login" && (
                 <Login>
-                    <InvertedButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }}  >
-                        Entrar
-                    </InvertedButton>
                     <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
                         Voltar
                     </GreyButton>
@@ -54,9 +49,6 @@ export default function WelcomeScreen() {
             {
                 option == "register" && (
                     <Register>
-                        <Button onClick={() => { }}>
-                            Cadastrar-se
-                        </Button>
                         <GreyButton onClick={() => setOption(null)} image={{ path: "assets/icons/arrow.svg", alt: "Back Button" }} >
                             Voltar
                         </GreyButton>
