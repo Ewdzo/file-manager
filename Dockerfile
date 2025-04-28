@@ -1,15 +1,15 @@
-FROM node:22-alpine
+FROM node:18-alpine
 
-ENV PORT 80
+ENV PORT=80
 
 WORKDIR /app
 COPY . .
 
-RUN npm install -omit=dev
+RUN npm install
 RUN npm run build
 
-RUN addgroup --system -gid 1001 nodejs
-RUN adduser --system -uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
 USER nextjs
 
