@@ -17,7 +17,6 @@ export type DetailsProps = {
 
 export const Details = ({ file }: DetailsProps) => {
     const [maxText, setMaxText] = useState<number>(file.description.length);
-    const [fileName, setFileName] = useState<string>(file.name);
 
     useEffect(() => {
         (window.innerWidth < 1024 && setMaxText(100));

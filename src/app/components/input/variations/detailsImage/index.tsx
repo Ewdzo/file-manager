@@ -12,7 +12,6 @@ export type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
 }
 
 export const DetailsImageInput = (props: InputProps) => {
-    const [image, setImage] = useState<string>(props.defaultValue);
     const [selectedImage, setSelectedImage] = useState();
 
     const imageChange = (e: any) => {
@@ -28,14 +27,14 @@ export const DetailsImageInput = (props: InputProps) => {
             <label id="image-input" htmlFor={id}>
                 <div>
                     <Image
-                        src={selectedImage ? URL.createObjectURL(selectedImage) : image}
+                        src={selectedImage ? URL.createObjectURL(selectedImage) : props.defaultValue}
                         alt="User Icon"
                         width={100}
                         height={100}
                     />
                 </div>
             </label>
-            <input {...props} disabled className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
+            <input {...props} defaultValue="" disabled className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
         </InputStyled>
     )
 }

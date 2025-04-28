@@ -3,7 +3,7 @@
 import { File } from "@/app/types/file.type";
 import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "../button";
 import { BigButton } from "../button/variation/bigButton";
 import { Checkbox } from "../checkbox";
@@ -13,6 +13,13 @@ import { AdvancedFiltering, FileSection, SearchBar, SearchContainer, SearchStyle
 
 export const Search = () => {
     const [files, setFiles] = useState<File[]>([]);
+
+    const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || !e.target.files.length) return;
+
+        const form : HTMLFormElement = document.getElementById('file-upload-submit') as HTMLFormElement;
+        form.submit();
+    };
 
     const getFiles = async () => {
         await fetch('/config/files.json')
@@ -68,7 +75,9 @@ export const Search = () => {
                         <input type="checkbox" id="show-tags" onChange={(e) => setIsAdvancedFiltering(e.target.checked)} />
                     </div>
                 </SearchBar>
-                <BigButton className="z-10" image={{ path: "/assets/icons/upload.svg", alt: "Upload Icon" }}>Enviar Arquivo</BigButton>
+                <form action="/api/upload" encType="multipart/form-data" method="post" className="z-10" id="file-upload-submit">
+                    <BigButton onChange={handleUpload} name="upload" id="file-upload" className="z-10" image={{ path: "/assets/icons/upload.svg", alt: "Upload Icon" }}>Enviar Arquivo</BigButton>
+                </form>
             </SearchContainer>
             <div className="lg:flex lg:flex-row-reverse lg:justify-between">
                 <AdvancedFiltering className={!isAdvancedFiltering ? "hidden" : "flex"}>

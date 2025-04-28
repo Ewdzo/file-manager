@@ -1,16 +1,20 @@
 import { createFolder } from "@/app/helper/createFolder";
 import { generateFilePath } from "@/app/helper/generateFilePath";
+import { mockUser } from "@/app/helper/mock";
+import { File } from "@/app/types/file.type";
 import formidable from "formidable";
+import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import path from "path";
 
 type ResponseData = {
   message: string;
+  data?: any;
 };
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false
   },
 };
 
@@ -23,26 +27,71 @@ export default async function handler(
     return;
   }
 
-  // await new Promise((resolve, reject) => {
-  createFolder("files");
+  const dateObj = new Date();
+  const month = dateObj.getUTCMonth() + 1;
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
+
+  const fileObj: File = {
+    name: "Default Name",
+    size: "0B",
+    path: "/files/file/default_path.unk",
+    icon: "/files/icon/default.png",
+    banner: "/files/banner/default.png",
+    logo: "/files/logo/default.png",
+    description: "",
+    tags: [],
+    extension: {color: "#C0C0C0", name: ".unk"},
+    owner: mockUser,
+    date: `${day}-${month}-${year}`
+  };
+
+  createFolder("./public/files/file");
 
   const form = formidable({
     maxFileSize: 100 * 1000 * 1024 * 1024, // 100GB limit;
   });
 
-  form.on('fileBegin', (uploads, file) => {
-    const folderPath = path.join("./", "files");
+  form.on("fileBegin", (uploads, file) => {
+    const folderPath = path.join("./public/files/file");
     const newPath = generateFilePath(folderPath, file.originalFilename);
     file.filepath = newPath;
+
+    fileObj.path = newPath;
+    if(file.originalFilename) fileObj.name = file.originalFilename.split(".")[0];
+    fileObj.extension.name = newPath.split(".")[1];
   });
 
-  form.on('progress', (bytesReceived, bytesExpected) => {
+  form.on("progress", (bytesReceived, bytesExpected) => {
     const percentage = (bytesReceived / bytesExpected) * 100;
-    console.log(  percentage.toFixed(4) + "%")
+    console.log(percentage.toFixed(4) + "%");
+
+    if((bytesExpected / Math.pow(1024, 1)) < 1024) fileObj.size = `${Math.floor(bytesExpected / Math.pow(1024, 1))} KB`
+    else if((bytesExpected / Math.pow(1024, 2)) < 1024) fileObj.size = `${Math.floor(bytesExpected / Math.pow(1024, 2))} MB`
+    else fileObj.size = `${Math.floor(bytesExpected / Math.pow(1024, 3))} GB`
   });
-  
-  form.on("end", () => res.status(200).send({ message: "Successfully uploaded" }));
-  
+
+  form.on("end", () => {
+    fs.readFile("./public/config/files.json", function (err, file) {
+      if (err) {
+        res.status(405).send({ message: "❌ - Failed to read files.json" });
+        return;
+      }
+
+      const files = JSON.parse(file as unknown as string);
+      files.push(fileObj);
+      const filesJson = JSON.stringify(files);
+
+      fs.writeFile("./public/config/files.json", filesJson, (err: any) => {
+        res
+          .status(405)
+          .send({ message: "❌ - Failed to create new user", data: err });
+        return;
+      });
+    });
+
+    res.status(200).send({ message: "Successfully uploaded" });
+  });
+
   await form.parse(req);
 }
-

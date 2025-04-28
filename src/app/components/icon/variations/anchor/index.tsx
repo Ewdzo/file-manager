@@ -6,7 +6,7 @@ import { IconStyled } from "./style";
 
 export const AnchorIcon = ({ file, className }: { file: File, className?: string }) => {
     return (
-        <IconStyled className={className}>
+        <IconStyled className={className} href={"/file?name=" + file.name}>
             <Image
                 alt={file.name + "s Icon"}
                 src={file.icon}

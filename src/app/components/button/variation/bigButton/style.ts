@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const BigButtonStyled = styled.button`
+export const BigButtonStyled = styled.label`
   background: #404040;
+  cursor: pointer;
   
   font-size: 18px;
   color: #888888;

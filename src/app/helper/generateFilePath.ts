@@ -4,7 +4,7 @@ export const generateFilePath: any = (
   folder: string,
   fileName: string,
 ) => {
-  const pathToCheck = folder + "/" + fileName;
+  const pathToCheck = folder + "\\" + fileName;
 
   if (!fs.existsSync(pathToCheck)) return pathToCheck;
 

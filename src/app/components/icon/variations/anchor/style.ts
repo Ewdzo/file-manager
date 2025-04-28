@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const IconStyled = styled.div`
+export const IconStyled = styled.a`
   display: flex;
   width: fit-content;
 

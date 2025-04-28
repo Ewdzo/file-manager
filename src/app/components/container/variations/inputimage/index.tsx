@@ -14,13 +14,6 @@ export type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
 
 export const ImageInputLikeContainer = (props: InputProps) => {
     const [image, setImage] = useState<string>(props.defaultValue);
-    const [selectedImage, setSelectedImage] = useState();
-
-    const imageChange = (e: any) => {
-        if (e.target.files && e.target.files.length > 0) {
-            setSelectedImage(e.target.files[0]);
-        }
-    };
 
     const { name, id, className, text } = props;
     return (
@@ -28,7 +21,7 @@ export const ImageInputLikeContainer = (props: InputProps) => {
             <label className="text-whiteNFM" htmlFor={id}>{name}</label>
             <label id="image-input" htmlFor={id}>
                 <Image
-                    src={selectedImage ? URL.createObjectURL(selectedImage) : image}
+                    src={image}
                     alt="User Icon"
                     width={100}
                     height={100}
@@ -36,7 +29,6 @@ export const ImageInputLikeContainer = (props: InputProps) => {
                 />
                 <p className="text-sm">{text}</p>
             </label>
-            <input {...props} disabled className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
         </ImageInputLikeContainerStyled>
     )
 }
