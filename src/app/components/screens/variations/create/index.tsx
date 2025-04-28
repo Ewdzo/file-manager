@@ -9,7 +9,7 @@ import { ArticleStyled } from "./style"
 
 export const Create = ({ children }: Readonly<{ children?: React.ReactNode }>) => {
     const defaultAdmin: User = { name: "admin", nickname: "Administrator", password: "admin", email: "johndoe@gmail.com", photo: "/assets/images/default_user.png" };
-    const defaultServer: Server = { IP: "127.0.0.1", port: "3000", name: "Servidor do Administrador" };
+    const defaultServer: Server = { IP: "127.0.0.1", port: "3000", name: "Servidor do Administrador", color: "#FFFFFF" };
 
     const [adminUser, setAdminUser] = useState<User>(defaultAdmin);
     const [adminServer, setAdminServer] = useState<Server>(defaultServer);

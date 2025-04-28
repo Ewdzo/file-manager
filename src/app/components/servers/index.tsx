@@ -1,13 +1,34 @@
 "use client"
 
-import { mockServer } from "@/app/helper/mock";
+import { Server } from "@/app/types/server.type";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { InputLikeContainer } from "../container/variations/inputlike";
 import { Input } from "../input";
 import { ServerBar, ServerContainer, ServerStyled } from "./style";
 
-export const Server = () => {
-    const servers = [mockServer, mockServer, mockServer];
+export const Servers = () => {
+    const [servers, setServers] = useState<Server[]>([]);
+
+    const getServers = async () => {
+        await fetch('/config/servers.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+
+                return response.json();
+            })
+            .then(json => {
+                return setServers(json);
+            })
+            .catch(() => { })
+    }
+
+    useEffect(() => {
+        getServers();
+    }, [])
+
 
     return (
         <ServerStyled>
@@ -17,7 +38,7 @@ export const Server = () => {
                     <div className="flex flex-col justify-center gap-2 lg:gap-4 lg:flex-row">
                         <div className="flex gap-2 lg:gap-4 flex-wrap justify-center">
                             {servers.map((server, index) => (
-                                <button key={index}>
+                                <button key={index} className="flex flex-col items-center">
                                     <div style={{ background: server.color }} className="h-[140px] w-[140px] rounded-lg border-4 border-blackNFM flex justify-center items-center">
                                         <Image src={"/assets/icons/server_alt.svg"} alt="Server Icon" width={100} height={100} />
                                     </div>
@@ -72,7 +93,7 @@ export const Server = () => {
                         </InputLikeContainer>
                     </div>
                 </div>
-                <div className="flex flex-col gap-2 items-center lg:w-fit lg:items-start min-w-[155px]">
+                <div className="flex flex-col gap-2 items-center lg:w-fit lg:items-start">
                     <Input
                         name="Cor do Servidor"
                         type="text"

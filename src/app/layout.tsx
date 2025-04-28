@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "An inovative approach to file managing",
 };
 
-const abel = Abel({ subsets: ['latin'], weight: "400"});
+export const abel = Abel({ subsets: ['latin'], weight: "400"});
 
 export default function RootLayout({
   children,

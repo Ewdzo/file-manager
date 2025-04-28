@@ -49,7 +49,7 @@ export default async function handler(
     const users = JSON.parse(file as unknown as string).filter((u : User) => u.name == user.name && u.password == user.password);
 
     if(users.length) {
-      const token = jwt.sign(users[0], secret, { expiresIn: "1hr" });
+      const token = jwt.sign(users[0], secret, { expiresIn: "10hr" });
       res.status(200).json({ message: "Login realizado com sucesso", data: token });
       return;
     }

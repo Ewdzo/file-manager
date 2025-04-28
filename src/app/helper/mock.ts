@@ -16,13 +16,13 @@ export const mockTag : Tag = {
 }
 
 export const mockExtension : Tag = {
-  name: ".mkv",
-  color: "#2DFF96"
+  "name": ".mkv",
+  "color": "#2DFF96"
 }
 
 export const mockServer : Tag = {
-  name: ".mkv",
-  color: "#2DFF96"
+  "name": ".mkv",
+  "color": "#2DFF96"
 }
 
 export const mockFile: File = {

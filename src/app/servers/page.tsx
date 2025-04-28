@@ -2,15 +2,15 @@ import { Header } from "@/app/components/header";
 import { HomeScreen } from "@/app/components/screens";
 import "@/app/globals.css";
 import { Footer } from "../components/footer";
-import { Server } from "../components/servers";
+import { Servers } from "../components/servers";
 
 
-export default function Servers() {
+export default function ServerPage() {
   return (
     <>
       <Header />
       <HomeScreen>
-        <Server />
+        <Servers />
       </HomeScreen>
       <Footer />
     </>

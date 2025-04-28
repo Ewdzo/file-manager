@@ -1,9 +1,9 @@
 "use client"
 
-import { mockExtension, mockSection, mockTag } from "@/app/helper/mock";
+import { File } from "@/app/types/file.type";
 import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../button";
 import { BigButton } from "../button/variation/bigButton";
 import { Checkbox } from "../checkbox";
@@ -12,7 +12,27 @@ import { AnchorIcon } from "../icon/variations/anchor";
 import { AdvancedFiltering, FileSection, SearchBar, SearchContainer, SearchStyled } from "./style";
 
 export const Search = () => {
-    const sections = [mockSection, mockSection];
+    const [files, setFiles] = useState<File[]>([]);
+
+    const getFiles = async () => {
+        await fetch('/config/files.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response.json();
+            })
+            .then(json => {
+                return setFiles(json);
+            })
+            .catch(() => { })
+    }
+
+    useEffect(() => {
+        getFiles();
+    }, [])
+
+    const sections = [{ title: "Arquivos", files: files }];
 
     const [isAdvancedFiltering, setIsAdvancedFiltering] = useState<boolean>(false);
 
@@ -21,13 +41,13 @@ export const Search = () => {
     const [tagQuery, setTagQuery] = useState<Tag[]>([]);
     const [filterTagQuery, setFilterTagQuery] = useState<string>("");
     const [maxTags, setMaxTags] = useState<number>(5);
-    const tags = [mockTag, mockTag, mockTag, mockTag, mockTag, mockTag, mockTag, mockTag, mockTag, mockTag, mockTag];
+    const tags = [...new Set((files.map((file) => file.tags)).flat(1))];
     const filteredTags = tags.filter(tags => tags.name.toLocaleLowerCase().includes(filterTagQuery));
 
     const [extensionQuery, setExtensionQuery] = useState<Tag[]>([]);
     const [filterExtensionQuery, setFilterExtensionQuery] = useState<string>("");
     const [maxExtensions, setMaxExtensions] = useState<number>(5);
-    const extensions = [mockExtension, mockExtension, mockExtension, mockExtension, mockExtension, mockExtension, mockExtension];
+    const extensions = [...new Set(files.map((file) => file.extension))];
     const filteredExtensions = extensions.filter(extension => extension.name.toLocaleLowerCase().includes(filterExtensionQuery));
 
     return (
@@ -96,7 +116,7 @@ export const Search = () => {
                         </div>
                     </div>
                 </AdvancedFiltering>
-                <Divider className="hidden lg:block"/>
+                <Divider className="hidden lg:block" />
                 <div className="w-full">
                     {
                         sections?.map(({ title, files }, index) => {

@@ -1,13 +1,34 @@
 "use client"
 
-import { mockTag } from "@/app/helper/mock";
+import { File } from "@/app/types/file.type";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { InputLikeContainer } from "../container/variations/inputlike";
 import { Input } from "../input";
 import { TagBar, TagContainer, TagStyled } from "./style";
 
 export const Tag = () => {
-    const tags = [mockTag, mockTag, mockTag];
+    const [files, setFiles] = useState<File[]>([]);
+
+    const getFiles = async () => {
+        await fetch('/config/files.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response.json();
+            })
+            .then(json => {
+                return setFiles(json);
+            })
+            .catch(() => { })
+    }
+
+    useEffect(() => {
+        getFiles();
+    }, [])
+
+    const tags = [...new Set((files.map((file) => file.tags)).flat(1))];
 
     return (
         <TagStyled>
