@@ -49,7 +49,7 @@ export default async function handler(
   createFolder("./public/files/file");
 
   const form = formidable({
-    maxFileSize: 100 * 1000 * 1024 * 1024, // 100GB limit;
+    maxFileSize: 100 * 1000 * 1024 * 1024 * 1024, // 100GB limit;
   });
 
   form.on("fileBegin", (uploads, file) => {
@@ -57,9 +57,9 @@ export default async function handler(
     const newPath = generateFilePath(folderPath, file.originalFilename);
     file.filepath = newPath;
 
-    fileObj.path = newPath;
-    if(file.originalFilename) fileObj.name = file.originalFilename.split(".")[0];
-    fileObj.extension.name = newPath.split(".")[1];
+    fileObj.path = newPath.replace("public", "");
+    if(file.originalFilename) fileObj.name = file.originalFilename.slice(0, file.originalFilename.lastIndexOf("."));
+    fileObj.extension.name = newPath.slice(newPath.lastIndexOf("."));
   });
 
   form.on("progress", (bytesReceived, bytesExpected) => {
@@ -68,7 +68,7 @@ export default async function handler(
 
     if((bytesExpected / Math.pow(1024, 1)) < 1024) fileObj.size = `${Math.floor(bytesExpected / Math.pow(1024, 1))} KB`
     else if((bytesExpected / Math.pow(1024, 2)) < 1024) fileObj.size = `${Math.floor(bytesExpected / Math.pow(1024, 2))} MB`
-    else fileObj.size = `${Math.floor(bytesExpected / Math.pow(1024, 3))} GB`
+    else fileObj.size = `${(bytesExpected / Math.pow(1024, 3)).toFixed(2)} GB`
   });
 
   form.on("end", () => {

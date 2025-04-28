@@ -188,6 +188,7 @@ export const FileSection = styled.section`
     padding: 1em 2em;
 
     div {
+      align-items: start;
       justify-content: start;
       max-width: none;
     }

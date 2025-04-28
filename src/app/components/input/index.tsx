@@ -17,7 +17,7 @@ export const Input = (props: InputProps) => {
     return (
         <InputStyled className={className}>
             <label className="text-whiteNFM" htmlFor={id}>{name}</label>
-            <input className="text-whiteNFM" {...props} />
+            <input className="text-whiteNFM" {...props} name={name.split(" ").join("_").toLocaleLowerCase()} />
         </InputStyled>
     )
 }

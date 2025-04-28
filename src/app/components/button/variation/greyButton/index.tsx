@@ -36,8 +36,8 @@ export const GreyButton = ({ children, className, image, mini, onClick }: Button
                 <Image
                     src={image.path}
                     alt={image.alt}
-                    width={16}
-                    height={16}
+                    width={22}
+                    height={22}
                 />
             }
             {children}

@@ -14,7 +14,7 @@ export const AnchorIcon = ({ file, className }: { file: File, className?: string
                 width={140}
                 className="border-4 border-blackNFM rounded-lg object-cover w-[140px] h-[140px]"
             />
-            <p className="text-greyNFM">{file.name}</p>
+            <p className="text-greyNFM max-w-[140px]">{file.name}</p>
         </IconStyled>
     )
 }

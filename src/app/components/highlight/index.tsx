@@ -35,7 +35,7 @@ export const Highlight = ({ sections }: HighlightProps) => {
                 sections?.map(({ title, files }, index) => (
                     <section key={index}>
                         <h1 className="text-whiteNFM">{title}</h1>
-                        <div className="flex gap-4 flex-wrap" id="movie-container">
+                        <div className="flex gap-4 flex-wrap lg:items-start">
                             {files.slice(0, maxElements).filter(file => file.name.toLocaleLowerCase().includes(searchQuery)).map((file, index) => <AnchorIcon key={index} file={file} />)}
                         </div>
                     </section>

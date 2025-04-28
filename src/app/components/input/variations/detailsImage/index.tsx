@@ -34,7 +34,7 @@ export const DetailsImageInput = (props: InputProps) => {
                     />
                 </div>
             </label>
-            <input {...props} defaultValue="" disabled className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
+            <input {...props} defaultValue="" className="hidden" type="file" accept="image/png, image/jpg, image/jpeg" onChange={imageChange} />
         </InputStyled>
     )
 }

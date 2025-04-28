@@ -45,3 +45,9 @@ next-env.d.ts
 
 # configuration
 /public/config
+# next-video
+./public/files/file/*
+!./public/files/file/*.json
+!./public/files/file/*.js
+!./public/files/file/*.ts
+public/_next-video

@@ -17,7 +17,7 @@ export const Search = () => {
     const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || !e.target.files.length) return;
 
-        const form : HTMLFormElement = document.getElementById('file-upload-submit') as HTMLFormElement;
+        const form : HTMLFormElement = document.getElementById('file-upload-form') as HTMLFormElement;
         form.submit();
     };
 
@@ -54,7 +54,7 @@ export const Search = () => {
     const [extensionQuery, setExtensionQuery] = useState<Tag[]>([]);
     const [filterExtensionQuery, setFilterExtensionQuery] = useState<string>("");
     const [maxExtensions, setMaxExtensions] = useState<number>(5);
-    const extensions = [...new Set(files.map((file) => file.extension))];
+    const extensions = [...new Set(files.map((file) => file.extension).flat(1).filter((value, index, self) => {return self.findIndex(t => t.name === value.name) === index;}))];
     const filteredExtensions = extensions.filter(extension => extension.name.toLocaleLowerCase().includes(filterExtensionQuery));
 
     return (
@@ -75,7 +75,7 @@ export const Search = () => {
                         <input type="checkbox" id="show-tags" onChange={(e) => setIsAdvancedFiltering(e.target.checked)} />
                     </div>
                 </SearchBar>
-                <form action="/api/upload" encType="multipart/form-data" method="post" className="z-10" id="file-upload-submit">
+                <form action="/api/upload" encType="multipart/form-data" method="post" className="z-10" id="file-upload-form">
                     <BigButton onChange={handleUpload} name="upload" id="file-upload" className="z-10" image={{ path: "/assets/icons/upload.svg", alt: "Upload Icon" }}>Enviar Arquivo</BigButton>
                 </form>
             </SearchContainer>
