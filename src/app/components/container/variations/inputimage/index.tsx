@@ -13,7 +13,7 @@ export type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
 }
 
 export const ImageInputLikeContainer = (props: InputProps) => {
-    const [image, setImage] = useState<string>(props.defaultValue);
+    const [image] = useState<string>(props.defaultValue);
 
     const { name, id, className, text } = props;
     return (

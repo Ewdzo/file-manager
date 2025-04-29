@@ -17,11 +17,11 @@ export type DetailsProps = {
 
 export const Details = ({ file }: DetailsProps) => {
     const [maxText, setMaxText] = useState<number>(file.description.length);
-    const [fileName, setFileName] = useState<string>();
-    const [fileDescription, setFileDescription] = useState<string>();
+    // const [fileName, setFileName] = useState<string>();
+    // const [fileDescription, setFileDescription] = useState<string>();
 
     useEffect(() => {
-        (window.innerWidth < 1024 && setMaxText(100));
+        if(window.innerWidth < 1024) setMaxText(100);
     }, [])
 
     const handleDelete = () => {

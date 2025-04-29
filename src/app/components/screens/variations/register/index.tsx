@@ -66,7 +66,7 @@ export const Register = ({ children }: Readonly<{ children?: React.ReactNode }>)
             method: "POST",
             headers: { 'Content-Type': 'application/json ' },
             body: JSON.stringify({ user: user })
-        }).then((data) => {
+        }).then(() => {
             window.location.reload()
          }).catch(e => alert(e));
     }

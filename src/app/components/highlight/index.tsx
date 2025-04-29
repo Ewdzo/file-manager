@@ -14,7 +14,6 @@ type HighlightProps = {
 }
 
 export const Highlight = ({ sections }: HighlightProps) => {
-    const [maxElements, setMaxElements] = useState<number>(12);
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     return (
@@ -36,7 +35,7 @@ export const Highlight = ({ sections }: HighlightProps) => {
                     <section key={index}>
                         <h1 className="text-whiteNFM">{title}</h1>
                         <div className="flex gap-4 flex-wrap lg:items-start">
-                            {files.slice(0, maxElements).filter(file => file.name.toLocaleLowerCase().includes(searchQuery)).map((file, index) => <AnchorIcon key={index} file={file} />)}
+                            {files.slice(0, 12).filter(file => file.name.toLocaleLowerCase().includes(searchQuery)).map((file, index) => <AnchorIcon key={index} file={file} />)}
                         </div>
                     </section>
                 ))

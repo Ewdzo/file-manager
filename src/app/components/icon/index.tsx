@@ -2,6 +2,7 @@
 
 import { File } from "@/app/types/file.type";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "../button";
 import { GreyButton } from "../button/variation/greyButton";
 import { IconStyled } from "./style";
@@ -29,8 +30,8 @@ export const Icon = ({ file, className }: { file: File, className?: string }) =>
                 />
             </div>
             <div className="flex flex-col gap-2 items-center lg:flex-row">
-                <Button>Play</Button>
-                <GreyButton mini image={{ path: "/assets/icons/info.svg", alt: "Information Icon" }}>Saiba Mais</GreyButton>
+                <Link href={"/file?name=" + file.name}><Button>Play</Button></Link>
+                <Link href={"/file?name=" + file.name}><GreyButton mini image={{ path: "/assets/icons/info.svg", alt: "Information Icon" }}>Saiba Mais</GreyButton></Link>
             </div>
         </IconStyled>
     )

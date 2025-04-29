@@ -110,7 +110,7 @@ export const Search = () => {
                             <div className="flex flex-col w-full gap-3">
                                 {filteredExtensions.slice(0, maxExtensions).map((tag, index) => (
                                     <div key={index} className="flex gap-2 w-full items-center">
-                                        <Checkbox id={"filter-" + tag.name} onChange={(e) => { e.target.checked ? setExtensionQuery([...extensionQuery, tag]) : setExtensionQuery(extensionQuery.filter(i => i != tag)) }} />
+                                        <Checkbox id={"filter-" + tag.name} onChange={(e) => { return e.target.checked ? setExtensionQuery([...extensionQuery, tag]) : setExtensionQuery(extensionQuery.filter(i => i != tag)) }} />
                                         <label htmlFor={"filter-" + tag.name} className="w-fit">
                                             <div style={{ background: tag.color }} className="px-2 flex-grow rounded-sm">{tag.name}</div>
                                         </label>
