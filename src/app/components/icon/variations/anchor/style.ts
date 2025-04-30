@@ -5,7 +5,7 @@ export const IconStyled = styled.a`
   width: fit-content;
 
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 
   text-align: center;

@@ -112,8 +112,8 @@ export const SearchContainer = styled.div`
 `;
 
 export const AdvancedFiltering = styled.div`
-  flex-wrap: wrap;
-  align-items: start;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   gap: 0.5em;
   width: 100%;
@@ -156,6 +156,7 @@ export const AdvancedFiltering = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
+    justify-content: start;
 
     padding: 1em 2em;
     height: fit-content;
@@ -176,6 +177,7 @@ export const FileSection = styled.section`
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    align-items: start;
 
     gap: 1em;
     max-width: 650px;
