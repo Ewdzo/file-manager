@@ -34,6 +34,7 @@ export const Login = ({ children }: Readonly<{ children?: React.ReactNode }>) =>
             const res = await data.json();
             return res;
         }).then(res => {
+            if(!res.data || !res.data.length) return;
             window.localStorage.setItem("token", res.data);
             window.location.replace("/home");
         }).catch(e => alert(e));
