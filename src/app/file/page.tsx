@@ -40,7 +40,6 @@ export default function Page() {
   }, [])
 
   if(!file) return;
-  console.log(file)
 
   return (
     <>
