@@ -85,7 +85,7 @@ export default async function handler(
       fs.writeFile("./public/config/files.json", filesJson, (err: any) => {
         res
           .status(405)
-          .send({ message: "❌ - Failed to create new user", data: err });
+          .send({ message: "❌ - Failed to create new file", data: err });
         return;
       });
     });

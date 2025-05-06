@@ -15,6 +15,7 @@ export const DetailsImageInput = (props: InputProps) => {
     const [selectedImage, setSelectedImage] = useState();
 
     const imageChange = (e: any) => {
+        if(props.onChange) props.onChange(e);
         if (e.target.files && e.target.files.length > 0) {
             setSelectedImage(e.target.files[0]);
         }

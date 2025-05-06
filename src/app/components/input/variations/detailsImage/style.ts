@@ -27,6 +27,7 @@ export const InputStyled = styled.div`
         width: 69px;
         height: 69px;
         object-fit: cover;
+        border-radius: 6px;
       }
     }
   }
