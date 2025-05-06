@@ -9,13 +9,13 @@ export type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>
     type: "text" | "password";
     id: string;
     className?: string;
-    
+    hidden?: boolean;
 }
 
 export const Input = (props: InputProps) => {
-    const { name, id, className } = props;
+    const { name, id, className, hidden } = props;
     return (
-        <InputStyled className={className}>
+        <InputStyled className={hidden ? className : ("flex " + className)}>
             <label className="text-whiteNFM" htmlFor={id}>{name}</label>
             <input className="text-whiteNFM" {...props} name={name.split(" ").join("_").toLocaleLowerCase()} />
         </InputStyled>

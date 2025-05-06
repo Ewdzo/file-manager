@@ -2,7 +2,7 @@
 
 import { File } from "@/app/types/file.type";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
 import { GreyButton } from "../button/variation/greyButton";
 import { ImageInputLikeContainer } from "../container/variations/inputimage";
 import { InputLikeContainer } from "../container/variations/inputlike";
@@ -17,18 +17,41 @@ export type DetailsProps = {
 
 export const Details = ({ file }: DetailsProps) => {
     const [maxText, setMaxText] = useState<number>(file.description.length);
-    // const [fileName, setFileName] = useState<string>();
-    // const [fileDescription, setFileDescription] = useState<string>();
+    const [alteredFile, setAlteredFile] = useState<File>(file);
 
-    useEffect(() => {
-        if(window.innerWidth < 1024) setMaxText(100);
-    }, [])
+    const handleFileName = (e: ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.value;
+        setAlteredFile({ ...alteredFile, name: name || file.name });
+    };
+
+    const handleFileDescription = (e: ChangeEvent<HTMLInputElement>) => {
+        const description = e.target.value;
+        setAlteredFile({ ...alteredFile, description: description || file.description });
+    };
+
+    const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.preventDefault();
+        const formElement = document.getElementById('file-edit') as HTMLFormElement;
+        const form = new FormData(formElement);
+
+        fetch("/api/files?path=" + file.path, {
+            body: form,
+            method: "put",
+        }
+        )
+    }
 
     const handleDelete = () => {
         fetch("/api/files?path=" + file.path, {
             method: "DELETE"
+        }).then(() => {
+            window.location.replace("/files")
         });
     }
+
+    useEffect(() => {
+        if (window.innerWidth < 1024) setMaxText(100);
+    }, [])
 
     return (
         <div className="flex flex-col gap-4 pb-6 lg:flex-row lg:gap-8 lg:px-4">
@@ -56,7 +79,7 @@ export const Details = ({ file }: DetailsProps) => {
                 </div>
             </div>
             <Divider />
-            <form action="/api/files" method="POST" className="z-10" id="file-edit">
+            <form action="/api/files" method="POST" encType="multipart/form-data" className="z-10" id="file-edit">
                 <div className="flex flex-col items-center justify-center gap-2 text-whiteNFM lg:flex-grow lg:items-start">
                     <div className="w-full flex flex-col gap-2 items-center lg:flex-row lg:gap-4">
                         <Input
@@ -65,7 +88,16 @@ export const Details = ({ file }: DetailsProps) => {
                             id="file-name"
                             defaultValue={file.name}
                             placeholder={file.name}
+                            onChange={handleFileName}
                             className="max-w-[275px] lg:!items-start lg:!text-start"
+                        />
+                        <Input
+                            name="Caminho do Arquivo"
+                            type="text"
+                            id="file-name"
+                            defaultValue={file.path}
+                            placeholder={file.path}
+                            className="hidden"
                         />
                         <div className="flex gap-8 lg:gap-4">
                             <div>
@@ -119,9 +151,7 @@ export const Details = ({ file }: DetailsProps) => {
                                 name="Logo"
                                 type="text"
                                 id="file-logo"
-                                disabled
                                 defaultValue={file.logo}
-                                placeholder=""
                                 className="max-w-[100px]"
                             />
                         </div>
@@ -142,6 +172,7 @@ export const Details = ({ file }: DetailsProps) => {
                             id="file-description"
                             defaultValue={file.description}
                             placeholder={file.description}
+                            onChange={handleFileDescription}
                             className="text-sm lg:!items-start lg:!text-start"
                         />
                         <div className="w-[275px] text-center lg:text-start">
@@ -157,7 +188,7 @@ export const Details = ({ file }: DetailsProps) => {
                     <div className="w-[275px] text-center lg:text-start">
                         <label className="text-whiteNFM">Ações</label>
                         <InputLikeContainer className="w-full flex flex-wrap gap-2 justify-center items-start p-4 py-8! gap-4 lg:!w-fit lg:!px-2">
-                            <button className="flex flex-col items-center justify-center text-center gap-2" onClick={handleDelete}>
+                            <button className="flex flex-col items-center justify-center text-center gap-2" onClick={handleDelete} type="button">
                                 <Image
                                     width={25}
                                     height={25}
@@ -184,7 +215,7 @@ export const Details = ({ file }: DetailsProps) => {
                                 />
                                 <p className="text-xs">Ocultar</p>
                             </button>
-                            <button className="flex flex-col items-center justify-center text-center gap-2" type="submit">
+                            <button className="flex flex-col items-center justify-center text-center gap-2" onClick={handleSubmit} type="submit">
                                 <Image
                                     width={25}
                                     height={25}
