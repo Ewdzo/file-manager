@@ -1,34 +1,33 @@
 "use client"
 
-import { File } from "@/app/types/file.type";
+import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { InputLikeContainer } from "../container/variations/inputlike";
 import { Input } from "../input";
 import { TagBar, TagContainer, TagStyled } from "./style";
 
-export const Tag = () => {
-    const [files, setFiles] = useState<File[]>([]);
+export const TagsPage = () => {
+    const [tags, setTags] = useState<Tag[]>([]);
 
-    const getFiles = async () => {
-        await fetch('/config/files.json')
+    const getTags = async () => {
+        await fetch('/config/tags.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error("HTTP error " + response.status);
                 }
+
                 return response.json();
             })
             .then(json => {
-                return setFiles(json);
+                return setTags(json);
             })
             .catch(() => { })
     }
 
     useEffect(() => {
-        getFiles();
+        getTags();
     }, [])
-
-    const tags = [...new Set((files.map((file) => file.tags)).flat(1))];
 
     return (
         <TagStyled>

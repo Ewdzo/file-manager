@@ -27,7 +27,7 @@ export default function Home() {
       if (!res.data) window.location.replace("/");
     }).catch(e => alert(e));
 
-  }, [])
+  }, [5000])
 
   const getFiles = async () => {
     await fetch('/config/files.json')
