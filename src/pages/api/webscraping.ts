@@ -1,3 +1,6 @@
+import getImdb from "@/app/lib/getImdb";
+import getRottenTomatoes from "@/app/lib/getRottenTomatoes";
+import { get } from "http";
 import type { NextApiRequest, NextApiResponse } from "next";
 import puppeteer from "puppeteer";
 
@@ -28,42 +31,57 @@ export default async function handler(
         return;
     }
 
+    if (!data.source){
+        res.status(400).json({ message: "Missing 'source' parameter." });
+        return;
+    }
+    
+    if(data.source !== "imdb" && data.source !== "rottentomatoes") {
+        res.status(400).json({ message: "Invalid 'source' parameter. Use 'imdb' or 'rottentomatoes'." });
+        return;
+    }
+
     const filename = data.filename as string;
-    const browser = await puppeteer.launch({
-        headless: false,
-        defaultViewport: null,
-    })
 
-    const page = await browser.newPage();
+    const score = data.source === "imdb" ? await getImdb(filename) : await getRottenTomatoes(filename);
 
-    await page.goto(`https://www.rottentomatoes.com/search?search=${filename.replaceAll(' ', '%20')}`, {
-        waitUntil: "domcontentloaded",
-    })
+    res.status(200).json({ message: "Success", data: score });
 
-    const results = await page.evaluate(async () => {
-        const result = document.querySelector("search-page-media-row");
+    // const browser = await puppeteer.launch({
+    //     headless: false,
+    //     defaultViewport: null,
+    // })
 
-        if (!result) {
-            res.status(404).send({ message: "❌ - NOT" });
-            return "";
-        }
-        const url = (result.childNodes[1] as HTMLAnchorElement).href || ""
+    // const page = await browser.newPage();
 
-        return url || ""; 
-    })
+    // await page.goto(`https://www.rottentomatoes.com/search?search=${filename.replaceAll(' ', '%20')}`, {
+    //     waitUntil: "domcontentloaded",
+    // })
 
-    await page.goto(results, {
-        waitUntil: "domcontentloaded",
-    })
+    // const results = await page.evaluate(async () => {
+    //     const result = document.querySelector("search-page-media-row");
 
-    const link = await page.evaluate(() => {
-        const score = (document.querySelector('[slot="criticsScore"]')?.childNodes[0] as unknown as string) || "";
+    //     if (!result) {
+    //         res.status(404).send({ message: "❌ - NOT" });
+    //         return "";
+    //     }
+    //     const url = (result.childNodes[1] as HTMLAnchorElement).href || ""
 
-        console.log(document.querySelector('[slot="criticsScore"]'))
-        return score; 
-    })
+    //     return url || ""; 
+    // })
 
-    if(link.length) res.status(200).send({ message: link });
+    // await page.goto(results, {
+    //     waitUntil: "domcontentloaded",
+    // })
+
+    // const link = await page.evaluate(() => {
+    //     const score = (document.querySelector('[slot="criticsScore"]')?.childNodes[0] as unknown as string) || "";
+
+    //     console.log(document.querySelector('[slot="criticsScore"]'))
+    //     return score; 
+    // })
+
+    // if(link.length) res.status(200).send({ message: link });
 
     res.status(404).send({ message: "❌ - Invalid Credentials" });
 
