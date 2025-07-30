@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-export default async function getImdb(title: string) {
+export default async function getRottenTomatoes(title: string) {
     try {
         const browser = await puppeteer.launch({
             headless: true,
@@ -16,50 +16,41 @@ export default async function getImdb(title: string) {
 
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/');
 
-        await page.goto(`https://imdb.com/find/?q=${encodeURIComponent(title)}`, {
+        await page.goto(`https://www.rottentomatoes.com/search?search=${encodeURIComponent(title)}`, {
             waitUntil: "domcontentloaded",
             // timeout: 30000,
         });
 
-        // Obter o link do primeiro resultado
-        const movieLink = await page.evaluate(() => {
-            const resultSelector = '[class="ipc-metadata-list-summary-item ipc-metadata-list-summary-item--click find-result-item find-title-result"]';
 
-            const anchorSelector = '[class="ipc-metadata-list-summary-item__t"]'
-
-            const linkElement = document.querySelector(resultSelector)?.querySelector(anchorSelector);
-
-            return linkElement ? (linkElement as HTMLAnchorElement).href : null;
-
-        });
-
-        if (!movieLink) {
-            return { rating: "Movie link not found" };
-        }
-
-        console.log("Movie Link:", movieLink);
-
-        await page.setExtraHTTPHeaders({
-            'Accept-Language': 'en-US,en;q=0.5'
+        //Obter o link do primeiro resultado
+        const results = await page.evaluate(() => {
+            const result = document.querySelector("search-page-media-row");
+            if (!result) {
+                console.log("❌ - NOT")
+                return "";
+            }
+            const url = (result.childNodes[1] as HTMLAnchorElement).href || ""
+            return url || "";
         })
-        await page.goto(movieLink, {
+
+        await page.goto(results, {
             waitUntil: "domcontentloaded",
             timeout: 30000
-        });
+        })
 
-        // Extrair apenas o rating
         const rating = await page.evaluate(() => {
-            const ratingSelectors = '[class="sc-4dc495c1-1 lbQcRY"]';
-            const textContent = document.querySelector(ratingSelectors)?.textContent;
+            const score = document.querySelector('[slot="criticsScore"]')!.childNodes[0].textContent
 
-            return textContent ? textContent.trim() : null;
-        });
+            return score;
+        })
 
+        console.log(rating)
         if (!rating) {
             return { rating: "Rating not found" };
         }
 
-        return { rating: rating + " / 10" };
+        return { rating: rating };
+
 
     } catch (error) {
         console.error("Scraping error:", error);
