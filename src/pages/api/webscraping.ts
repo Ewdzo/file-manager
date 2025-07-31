@@ -1,5 +1,6 @@
 import getImdb from "@/app/lib/getImdb";
 import getRottenTomatoes from "@/app/lib/getRottenTomatoes";
+import getLetterboxd from "@/app/lib/getLetterboxd";
 import { get } from "http";
 import type { NextApiRequest, NextApiResponse } from "next";
 import puppeteer from "puppeteer";
@@ -36,14 +37,16 @@ export default async function handler(
         return;
     }
     
-    if(data.source !== "imdb" && data.source !== "rottentomatoes") {
+    if(data.source !== "imdb" && data.source !== "rottentomatoes" && data.source !== "letterboxd") {
         res.status(400).json({ message: "Invalid 'source' parameter. Use 'imdb' or 'rottentomatoes'." });
         return;
     }
 
     const filename = data.filename as string;
 
-    const score = data.source === "imdb" ? await getImdb(filename) : await getRottenTomatoes(filename);
+    const score = data.source === "imdb" ? await getImdb(filename) : 
+    data.source === "letterboxd" ? await getLetterboxd(filename) : 
+    await getRottenTomatoes(filename);
 
     res.status(200).json({ message: "Success", data: score });
     res.status(404).send({ message: "❌ - Invalid Credentials" });
