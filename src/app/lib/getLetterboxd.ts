@@ -22,6 +22,7 @@ export default async function getLetterboxd(title: string) {
             timeout: 30000
         });
 
+        await page.waitForSelector('span.film-title-wrapper');
         const movieLink = await page.evaluate(() => {
             const result = document.querySelector('.film-title-wrapper')
 
@@ -31,6 +32,7 @@ export default async function getLetterboxd(title: string) {
             }
 
             const url = (result.children[0] as HTMLAnchorElement).href || ""
+
             return url || "";
         })
 
@@ -40,13 +42,14 @@ export default async function getLetterboxd(title: string) {
 
         console.log("Movie Link:", movieLink);
 
+        
         await page.goto(movieLink, {
             waitUntil: "domcontentloaded",
             timeout: 30000
         })
 
         //extrair o rating
-
+        await page.waitForSelector('span.average-rating');
         const rating = await page.evaluate(() => {
             const score = document.querySelector('.average-rating')?.children[0].textContent
 
