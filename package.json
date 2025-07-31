@@ -14,6 +14,7 @@
     "formidable": "^3.5.2",
     "jsonwebtoken": "^9.0.2",
     "next": "^15.2.4",
+    "ollama": "^0.5.16",
     "progress-stream": "^2.0.0",
     "puppeteer": "^24.14.0",
     "react": "^19.0.0",
