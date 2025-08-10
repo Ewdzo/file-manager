@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 
-export default async function getImdb(title: string) {
+export default async function getImdbRating(title: string) {
     try {
         const browser = await puppeteer.launch({
             headless: true,

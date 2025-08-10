@@ -1,4 +1,4 @@
-import getImdb from "@/app/lib/getImdb";
+import getImdbRating from "@/app/lib/getImdbRating";
 import getLetterboxd from "@/app/lib/getLetterboxd";
 import getRottenTomatoes from "@/app/lib/getRottenTomatoes";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -51,7 +51,7 @@ export default async function handler(
   const filename = data.filename as string;
   const score =
     data.source === "imdb"
-      ? await getImdb(filename)
+      ? await getImdbRating(filename)
       : data.source === "letterboxd"
       ? await getLetterboxd(filename)
       : await getRottenTomatoes(filename);
