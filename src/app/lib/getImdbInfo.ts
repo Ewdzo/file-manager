@@ -56,20 +56,20 @@ export default async function getImdbInfo(title: string) {
             return { director: "Director not found" };
         }
 
-        // Extrair casting
-        const casting = await page.evaluate(() => {
-            const castingSelectors = '[class="ipc-inline-list ipc-inline-list--show-dividers ipc-inline-list--inline ipc-metadata-list-item__list-content baseAlt"]';
-            const listItems = document.querySelectorAll(`${castingSelectors} li `);
-            console.log("Casting List Items:", listItems);
+        // Extrair cast
+        const cast = await page.evaluate(() => {
+            const castSelectors = '[class="ipc-inline-list ipc-inline-list--show-dividers ipc-inline-list--inline ipc-metadata-list-item__list-content baseAlt"]';
+            const listItems = document.querySelectorAll(`${castSelectors} li `);
+            console.log("Cast List Items:", listItems);
             const cast = Array.from(listItems).map(item => item.textContent?.trim()).filter(Boolean);
             return cast.length > 0 ? cast.slice(-3) : null;
         });
 
-        if (!casting) {
-            return { casting: "Casting not found" };
+        if (!cast) {
+            return { cast: "Cast not found" };
         }
 
-        return { casting: casting, director: director };
+        return { cast: cast, director: director };
 
     } catch (error) {
         console.error("Scraping error:", error);
