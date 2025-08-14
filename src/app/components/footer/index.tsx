@@ -6,6 +6,7 @@ import { FooterStyled } from "./style";
 export const Footer = () => {
     return (
         <FooterStyled>
+            <p>2025</p>
             <div className="flex gap-1 items-center">
                 <Image
                     src={"/assets/icons/nexus.svg"}
@@ -14,8 +15,7 @@ export const Footer = () => {
                     height={25} />
                 <p>Nexus</p>
             </div>
-            <p>2025</p>
-            <p> </p>
+            <p>EECA</p>
         </FooterStyled>
     )
 }

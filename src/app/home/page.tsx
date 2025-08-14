@@ -27,7 +27,7 @@ export default function Home() {
       if (!res.data) window.location.replace("/");
     }).catch(e => alert(e));
 
-  }, [5000])
+  }, [])
 
   const getFiles = async () => {
     await fetch('/config/files.json')
@@ -47,14 +47,14 @@ export default function Home() {
     getFiles();
   }, [])
 
-  if (!files.length) return;
-
   return (
     <>
       <Header />
       <HomeScreen>
         <Banner file={files[0]} />
-        <Highlight sections={[{ title: "Arquivos", files: files }]} />
+        {files.length > 0 && (
+          <Highlight sections={[{ title: "Arquivos", files: files }]} />
+        )}
       </HomeScreen>
       <Footer />
     </>
