@@ -56,10 +56,43 @@ export default async function getLetterboxd(title: string) {
             return score;
         })
 
+        const critics = await page.evaluate(() => {
+            const reviews = [...document.querySelectorAll(".production-viewing.-viewing.js-production-viewing")].slice(0, 3);
+            const critics: {user: String; critic: String; rating: String}[] = []
+
+            reviews.forEach(el => {
+                const user = el.querySelector(".displayname")?.textContent || '';
+                const critic = el.querySelector("p")?.textContent || '';
+                const stars = el.querySelector(".rating.-green")?.textContent || '';
+
+                let rating = '0';
+
+                if(stars.length != 0) {
+                    let count = 0.0;
+                    for (let i = 0; i < stars.length; i++) {
+                        if (stars[i] === '★') {
+                            count = count + 1;
+                        }
+                        else if(stars[i] === '½') {
+                            count = count + .5;
+                        }
+                    }
+                    rating = String(count);
+                }
+
+                critics.push({user: user, critic: critic, rating: rating});
+            });
+
+            return critics;
+        })
+
         console.log(rating)
         if (!rating) {
             return { rating: "Rating not found" };
         }
+
+        console.log('oklll');
+        console.log(JSON.stringify(critics, null, 2));
 
         return { rating: rating };
 
