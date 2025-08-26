@@ -106,15 +106,6 @@ export const Servers = () => {
                             <Image
                                 width={25}
                                 height={25}
-                                alt="Delete Icon"
-                                src={"/assets/icons/delete.svg"}
-                            />
-                            <p className="text-xs">Deletar</p>
-                        </button>
-                        <button className="flex flex-col items-center justify-center text-center gap-2">
-                            <Image
-                                width={25}
-                                height={25}
                                 alt="Save Icon"
                                 src={"/assets/icons/save.svg"}
                             />
