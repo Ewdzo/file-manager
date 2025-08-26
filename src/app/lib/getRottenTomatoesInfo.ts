@@ -1,9 +1,9 @@
 import puppeteer from "puppeteer";
 
-export default async function getRottenTomatoes(title: string) {
+export default async function getRottenTomatosInfo(title: string) {
     try {
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             defaultViewport: null,
         });
 
@@ -16,11 +16,11 @@ export default async function getRottenTomatoes(title: string) {
 
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/');
 
+
         await page.goto(`https://www.rottentomatoes.com/search?search=${encodeURIComponent(title)}`, {
             waitUntil: "domcontentloaded",
             // timeout: 30000,
         });
-
 
         //Obter o link do primeiro resultado
         const results = await page.evaluate(() => {
@@ -33,27 +33,36 @@ export default async function getRottenTomatoes(title: string) {
             return url || "";
         })
 
-        
-        await page.waitForSelector('rt-text[context="label" ]', { timeout: 5000 });
+        await page.goto(results + "/reviews", {
+            waitUntil: "domcontentloaded",
+            timeout: 30000
+        })
 
 
-        // Extrair críticos
-        const criticos = await page.$$eval('rt-text[context="label"]', els =>
-            els
-                .map(el => el.textContent?.trim())
-                .filter(Boolean)
-                .filter(name => name.length > 2) 
-        );
+        // Extrair critica
+        await page.waitForSelector('.review-row');
+        const critics = await page.evaluate(() => {
+            const reviews = [...document.querySelectorAll(".review-row")].slice(0, 3);
+            const critics: { user: String; critic: String; rating: String }[] = []
 
-        const rank = await page.$$eval('rt-text[context="label"]', els =>
-            els
-                .map(el => el.textContent?.trim())
-                .filter(Boolean)
-                .filter(name => name.length > 2) 
-        );
+            reviews.forEach(el => {
+                const user = el.querySelector(".display-name")?.textContent || '';
+                const critic = el.querySelector(".review-text")?.textContent || '';
+                
 
+                
 
-        return { criticos: criticos, Trank: rank };
+    
+
+                critics.push({ user: user, critic: critic });
+            });
+            console.log(critics)
+
+            return critics;
+        })
+        //console.log(JSON.stringify(critics, null, 2));
+
+        return critics;
 
     } catch (error) {
         console.error("Scraping error:", error);

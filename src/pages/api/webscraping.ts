@@ -1,6 +1,7 @@
 import getImdbRating from "@/app/lib/getImdbRating";
 import getLetterboxd from "@/app/lib/getLetterboxd";
 import getRottenTomatoes from "@/app/lib/getRottenTomatoes";
+import getRottenTomatoesInfo from "@/app/lib/getRottenTomatoesInfo";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
@@ -54,7 +55,7 @@ export default async function handler(
       ? await getImdbRating(filename)
       : data.source === "letterboxd"
       ? await getLetterboxd(filename)
-      : await getRottenTomatoes(filename);
+      : await getRottenTomatoesInfo(filename);
 
   // const pdfData = await getPdf("oi");
   // console.log(pdfData);
