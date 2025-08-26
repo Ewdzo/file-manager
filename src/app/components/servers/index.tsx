@@ -54,10 +54,6 @@ export const Servers = () => {
                                 </button>
                             ))}
                         </div>
-                        <button className="flex flex-col justify-center items-center gap-2 lg:pb-[60px]">
-                            <div className="flex h-[40px] w-[40px] justify-center items-center text-xl rounded-[4px] text-blackNFM bg-whiteNFM">+</div>
-                            <label className="text-greyNFM">Adicionar Servidor</label>
-                        </button>
                     </div>
                 </ServerBar>
             </ServerContainer>
@@ -106,15 +102,6 @@ export const Servers = () => {
                 <div className="flex flex-col items-center justify-center min-w-[275px] text-center lg:text-start lg:items-start text-whiteNFM">
                     <label>Ações</label>
                     <InputLikeContainer className="flex flex-wrap gap-2 items-center !p-4 py-8! gap-4 !w-fit">
-                        <button className="flex flex-col items-center justify-center text-center gap-2">
-                            <Image
-                                width={25}
-                                height={25}
-                                alt="Delete Icon"
-                                src={"/assets/icons/delete.svg"}
-                            />
-                            <p className="text-xs">Deletar</p>
-                        </button>
                         <button className="flex flex-col items-center justify-center text-center gap-2">
                             <Image
                                 width={25}

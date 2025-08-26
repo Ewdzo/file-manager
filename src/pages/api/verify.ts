@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
   message: string;
-  data?: any;
+  data?: string | jwt.JwtPayload;
 };
 
 export const config = {
@@ -21,20 +21,19 @@ export default async function handler(
     return;
   }
 
-  const token = req.headers['authorization']?.split(' ')[1] || "";
+  const token = req.headers["authorization"]?.split(" ")[1] || "";
   const secret = "fortnitebattlepass";
 
   try {
     const decoded = jwt.verify(token, secret);
     res.status(200).json({
       message: "Success",
-      data: decoded
-    })
+      data: decoded,
+    });
 
     return;
-  } catch (e) {
-    res.status(401).json({message: "Invalid Token"})
+  } catch {
+    res.status(401).json({ message: "Invalid Token" });
     return;
   }
-
 }

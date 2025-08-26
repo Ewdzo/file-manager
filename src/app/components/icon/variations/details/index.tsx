@@ -23,6 +23,7 @@ export const DetailsIcon = ({ file, className }: { file: File, className?: strin
                         controls={true}
 
                     />
+                    <Button onClick={() => setPlay(false)}>Fechar</Button>
                 </>
                 :
                 <>
