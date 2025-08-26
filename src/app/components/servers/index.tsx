@@ -54,10 +54,6 @@ export const Servers = () => {
                                 </button>
                             ))}
                         </div>
-                        <button className="flex flex-col justify-center items-center gap-2 lg:pb-[60px]">
-                            <div className="flex h-[40px] w-[40px] justify-center items-center text-xl rounded-[4px] text-blackNFM bg-whiteNFM">+</div>
-                            <label className="text-greyNFM">Adicionar Servidor</label>
-                        </button>
                     </div>
                 </ServerBar>
             </ServerContainer>
