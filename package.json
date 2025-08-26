@@ -19,7 +19,7 @@
     "ollama": "^0.5.16",
     "pdf.js-extract": "^0.2.1",
     "progress-stream": "^2.0.0",
-    "puppeteer": "^24.14.0",
+    "puppeteer": "^24.17.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-player": "^2.16.0",
