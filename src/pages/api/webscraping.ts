@@ -8,7 +8,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
   message: string;
-  data?: any;
+  data?: {
+    rating?: string;
+    director?: string;
+    cast?: string | string[];
+    critics?: {
+      user?: string;
+      critic?: string;
+    }[];
+  };
 };
 
 export const config = {
@@ -44,7 +52,9 @@ export default async function handler(
   }
 
   if (data.type != "rating" && data.type != "info") {
-    res.status(400).json({ message: "Parameter'type' must be rating or info." });
+    res
+      .status(400)
+      .json({ message: "Parameter'type' must be rating or info." });
     return;
   }
   if (
@@ -52,11 +62,9 @@ export default async function handler(
     data.source !== "rottentomatoes" &&
     data.source !== "letterboxd"
   ) {
-    res
-      .status(400)
-      .json({
-        message: "Invalid 'source' parameter. Use 'imdb' or 'rottentomatoes'.",
-      });
+    res.status(400).json({
+      message: "Invalid 'source' parameter. Use 'imdb' or 'rottentomatoes'.",
+    });
     return;
   }
 
@@ -66,8 +74,8 @@ export default async function handler(
       data.source === "imdb"
         ? await getImdbRating(filename)
         : data.source === "letterboxd"
-          ? await getLetterboxd(filename)
-          : await getRottenTomatoes(filename);
+        ? await getLetterboxd(filename)
+        : await getRottenTomatoes(filename);
 
     res.status(200).json({ message: "Success", data: score });
   }
@@ -78,8 +86,8 @@ export default async function handler(
       data.source === "imdb"
         ? await getImdbInfo(filename)
         : data.source === "letterboxd"
-          ? await getLetterboxdCritics(filename)
-          : await getRottenTomatoesInfo(filename);
+        ? await getLetterboxdCritics(filename)
+        : await getRottenTomatoesInfo(filename);
 
     res.status(200).json({ message: "Success", data: info });
   }
