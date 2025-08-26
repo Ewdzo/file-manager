@@ -43,20 +43,14 @@ export default async function getRottenTomatosInfo(title: string) {
         await page.waitForSelector('.review-row');
         const critics = await page.evaluate(() => {
             const reviews = [...document.querySelectorAll(".review-row")].slice(0, 3);
-            const critics: { user: String; critic: String; rating: String }[] = []
+            const critics: { user: String; critic: String; }[] = []
 
             reviews.forEach(el => {
                 const user = el.querySelector(".display-name")?.textContent || '';
                 const critic = el.querySelector(".review-text")?.textContent || '';
-                
-
-                
-
-    
 
                 critics.push({ user: user, critic: critic });
             });
-            console.log(critics)
 
             return critics;
         })

@@ -1,12 +1,14 @@
+import getImdbInfo from "@/app/lib/getImdbInfo";
 import getImdbRating from "@/app/lib/getImdbRating";
 import getLetterboxd from "@/app/lib/getLetterboxd";
+import getLetterboxdCritics from "@/app/lib/getLetterboxdCritics";
 import getRottenTomatoes from "@/app/lib/getRottenTomatoes";
 import getRottenTomatoesInfo from "@/app/lib/getRottenTomatoesInfo";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
   message: string;
-  data?: { rating: string };
+  data?: any;
 };
 
 export const config = {
@@ -36,6 +38,15 @@ export default async function handler(
     return;
   }
 
+  if (!data.type) {
+    res.status(400).json({ message: "Missing 'type' parameter." });
+    return;
+  }
+
+  if (data.type != "rating" && data.type != "info") {
+    res.status(400).json({ message: "Parameter'type' must be rating or info." });
+    return;
+  }
   if (
     data.source !== "imdb" &&
     data.source !== "rottentomatoes" &&
@@ -49,17 +60,29 @@ export default async function handler(
     return;
   }
 
-  const filename = data.filename as string;
-  const score =
-    data.source === "imdb"
-      ? await getImdbRating(filename)
-      : data.source === "letterboxd"
-      ? await getLetterboxd(filename)
-      : await getRottenTomatoesInfo(filename);
+  if (data.type == "rating") {
+    const filename = data.filename as string;
+    const score =
+      data.source === "imdb"
+        ? await getImdbRating(filename)
+        : data.source === "letterboxd"
+          ? await getLetterboxd(filename)
+          : await getRottenTomatoes(filename);
 
-  // const pdfData = await getPdf("oi");
-  // console.log(pdfData);
+    res.status(200).json({ message: "Success", data: score });
+  }
 
-  res.status(200).json({ message: "Success", data: score });
-  res.status(404).send({ message: "❌ - Invalid Credentials" });
+  if (data.type == "info") {
+    const filename = data.filename as string;
+    const info =
+      data.source === "imdb"
+        ? await getImdbInfo(filename)
+        : data.source === "letterboxd"
+          ? await getLetterboxdCritics(filename)
+          : await getRottenTomatoesInfo(filename);
+
+    res.status(200).json({ message: "Success", data: info });
+  }
+
+  res.status(404).send({ message: "❌ - Invalid Parameters" });
 }
