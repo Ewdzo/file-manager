@@ -3,7 +3,7 @@ import puppeteer from "puppeteer";
 export default async function getRottenTomatoes(title: string) {
     try {
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             defaultViewport: null,
         });
 
@@ -33,27 +33,24 @@ export default async function getRottenTomatoes(title: string) {
             return url || "";
         })
 
-        
-        await page.waitForSelector('rt-text[context="label" ]', { timeout: 5000 });
+        await page.goto(results, {
+            waitUntil: "domcontentloaded",
+            timeout: 30000
+        })
 
+        const rating = await page.evaluate(() => {
+            const score = document.querySelector('[slot="criticsScore"]')!.childNodes[0].textContent
 
-        // Extrair críticos
-        const criticos = await page.$$eval('rt-text[context="label"]', els =>
-            els
-                .map(el => el.textContent?.trim())
-                .filter(Boolean)
-                .filter(name => name.length > 2) 
-        );
+            return score;
+        })
 
-        const rank = await page.$$eval('rt-text[context="label"]', els =>
-            els
-                .map(el => el.textContent?.trim())
-                .filter(Boolean)
-                .filter(name => name.length > 2) 
-        );
+        console.log(rating)
+        if (!rating) {
+            return { rating: "Rating not found" };
+        }
 
+        return { rating: rating };
 
-        return { criticos: criticos, Trank: rank };
 
     } catch (error) {
         console.error("Scraping error:", error);

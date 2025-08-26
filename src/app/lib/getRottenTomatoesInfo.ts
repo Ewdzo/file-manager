@@ -46,7 +46,7 @@ export default async function getRottenTomatosInfo(title: string) {
             const critics: { user: String; critic: String; }[] = []
 
             reviews.forEach(el => {
-                const user = el.querySelector(".display-name")?.textContent || '';
+                const user = el.querySelector(".display-name")?.textContent.trim().replace("\n", "") || '';
                 const critic = el.querySelector(".review-text")?.textContent || '';
 
                 critics.push({ user: user, critic: critic });
