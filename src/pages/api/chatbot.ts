@@ -23,13 +23,13 @@ export default async function handler(
 
   const data = req.query;
 
-  //   if (!data.file) {
-  //     res.status(400).json({ message: "Missing 'file' parameter." });
-  //     return;
-  //   }
+  if (!data.file) {
+    res.status(400).json({ message: "Missing 'file' parameter." });
+    return;
+  }
 
   if (!data.query) {
-    res.status(400).json({ message: "Missing 'file' parameter." });
+    res.status(400).json({ message: "Missing 'query' parameter." });
     return;
   }
 
