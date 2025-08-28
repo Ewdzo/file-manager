@@ -16,6 +16,7 @@ export type DetailsProps = {
 }
 
 export const Details = ({ file }: DetailsProps) => {
+    // const router = useRouter();
     const [maxText, setMaxText] = useState<number>(file.description.length);
     const [alteredFile, setAlteredFile] = useState<File>(file);
 
@@ -38,7 +39,7 @@ export const Details = ({ file }: DetailsProps) => {
             body: form,
             method: "put",
         }
-        )
+        ).then((d) => d.json()).then((d) => window.location.href = "file?name=" + (d.data.name[0]))
     }
 
     const handleDelete = () => {

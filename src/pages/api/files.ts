@@ -152,8 +152,8 @@ export default async function handler(
         (obj: File) => obj.path == filePath
       )[0];
 
-      if (data[0].nome_do_arquivo) newFile.name = data[0].nome_do_arquivo;
-      if (data[0]["descrição"]) newFile.description = data[0]["descrição"];
+      if (data[0].nome_do_arquivo) newFile.name = data[0].nome_do_arquivo[0];
+      if (data[0]["descrição"]) newFile.description = data[0]["descrição"][0];
 
       const files = JSON.parse(obj as unknown as string).filter(
         (file: File) => file.path != filePath
@@ -173,7 +173,7 @@ export default async function handler(
 
       res.status(200).json({ message: "Success!", data: newFile });
     });
-  } else if (req.method !== "PUT" && req.method !== "DELETE") {
+  } else {
     res.status(400).json({ message: "Try PUT or DELETE method!" });
     return;
   }
