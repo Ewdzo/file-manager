@@ -7,7 +7,7 @@ import path from "path";
 
 type ResponseData = {
   message: string;
-  data?: any;
+  data?: unknown;
 };
 
 export const config = {
@@ -27,7 +27,7 @@ export default async function handler(
     }
     const path = req.query.path as string;
 
-    fs.unlink("public\\" + path, (err: any) => {
+    fs.unlink("public\\" + path, (err) => {
       res
         .status(405)
         .send({ message: "❌ - Failed to delete " + path, data: err });
@@ -45,7 +45,7 @@ export default async function handler(
       );
       const filesJson = JSON.stringify(files);
 
-      fs.writeFile("./public/config/files.json", filesJson, (err: any) => {
+      fs.writeFile("./public/config/files.json", filesJson, (err) => {
         res.status(405).send({
           message: "❌ - Failed to save files after delete.",
           data: err,
@@ -70,65 +70,111 @@ export default async function handler(
     }
 
     const filePath = req.query.path as string;
-    const basePath = filePath.slice(filePath.lastIndexOf("/")).replace(".", "_");
+    const basePath = filePath
+      .slice(filePath.lastIndexOf("/"))
+      .replace(".", "_");
 
-      try {
-        form.on("fileBegin", (uploads, file) => {
-          if (file) {
-            if (!file.originalFilename) return;
-            if (!mapPath(uploads).length) throw new Error();
-    
-            const extension = file.originalFilename.slice(
-              file.originalFilename.lastIndexOf(".")
+    try {
+      form.on("fileBegin", (uploads, file) => {
+        if (file) {
+          if (!file.originalFilename) return;
+          if (!mapPath(uploads).length) throw new Error();
+
+          const extension = file.originalFilename.slice(
+            file.originalFilename.lastIndexOf(".")
+          );
+          const fileName = basePath + extension;
+          const newPath = path.join(mapPath(uploads), fileName);
+
+          file.filepath = newPath;
+
+          fs.readFile("./public/config/files.json", function (err, obj) {
+            if (err) {
+              res
+                .status(405)
+                .send({ message: "❌ - Failed to read files.json" });
+              return;
+            }
+
+            const newFile = JSON.parse(obj as unknown as string).filter(
+              (obj: File) => obj.path == filePath
+            )[0];
+
+            if (uploads == "Ícone")
+              newFile.icon = newPath
+                .replace("public", "")
+                .replace("\\", "/")
+                .replace(/\\/g, "/");
+
+            if (uploads == "Banner")
+              newFile.banner = newPath
+                .replace("public", "")
+                .replace("\\", "/")
+                .replace(/\\/g, "/");
+
+            if (uploads == "Logo")
+              newFile.logo = newPath
+                .replace("public", "")
+                .replace("\\", "/")
+                .replace(/\\/g, "/");
+
+            const files = JSON.parse(obj as unknown as string).filter(
+              (file: File) => file.path != filePath
             );
-            const fileName = basePath + extension;
-            const newPath = path.join(mapPath(uploads), fileName);
-    
-            file.filepath = newPath;
-    
-            fs.readFile("./public/config/files.json", function (err, obj) {
-              if (err) {
-                res.status(405).send({ message: "❌ - Failed to read files.json" });
-                return;
-              }
-    
-              const newFile = JSON.parse(obj as unknown as string).filter(
-                (obj: File) => obj.path == filePath
-              )[0];
-    
-              if (uploads == "Ícone") newFile.icon = newPath.replace("public", "").replace("\\", "/").replace(/\\/g, "/");
-              if (uploads == "Banner") newFile.banner = newPath.replace("public", "").replace("\\", "/").replace(/\\/g, "/");
-              if (uploads == "Logo") newFile.logo = newPath.replace("public", "").replace("\\", "/").replace(/\\/g, "/");
-    
-              const files = JSON.parse(obj as unknown as string).filter(
-                (file: File) => file.path != filePath
-              );
-    
-              files.push(newFile);
-    
-              const filesJson = JSON.stringify(files);
-    
-              fs.writeFile("./public/config/files.json", filesJson, (err: any) => {
-                res.status(405).send({
-                  message: "❌ - Failed to save files after edit.",
-                  data: err,
-                });
-                return;
-              });
-            });
-          }
-        });
 
-      } catch {
-        res.status(400).json({ message: "Failed to update!" });
+            files.push(newFile);
+
+            const filesJson = JSON.stringify(files);
+
+            fs.writeFile("./public/config/files.json", filesJson, (err) => {
+              res.status(405).send({
+                message: "❌ - Failed to save files after edit.",
+                data: err,
+              });
+              return;
+            });
+          });
+        }
+      });
+    } catch {
+      res.status(400).json({ message: "Failed to update!" });
+      return;
+    }
+
+    const data = await form.parse(req);
+    fs.readFile("./public/config/files.json", function (err, obj) {
+      if (err) {
+        res.status(405).send({ message: "❌ - Failed to read files.json" });
         return;
       }
 
-    await form.parse(req);
+      const newFile = JSON.parse(obj as unknown as string).filter(
+        (obj: File) => obj.path == filePath
+      )[0];
+
+      if (data[0].nome_do_arquivo) newFile.name = data[0].nome_do_arquivo;
+      if (data[0]["descrição"]) newFile.description = data[0]["descrição"];
+
+      const files = JSON.parse(obj as unknown as string).filter(
+        (file: File) => file.path != filePath
+      );
+
+      files.push(newFile);
+
+      const filesJson = JSON.stringify(files);
+
+      fs.writeFile("./public/config/files.json", filesJson, (err) => {
+        res.status(405).send({
+          message: "❌ - Failed to save files after edit.",
+          data: err,
+        });
+        return;
+      });
+
+      res.status(200).json({ message: "Success!", data: newFile });
+    });
   } else if (req.method !== "PUT" && req.method !== "DELETE") {
     res.status(400).json({ message: "Try PUT or DELETE method!" });
     return;
   }
-
-  res.status(200).json({ message: "Success" });
 }
