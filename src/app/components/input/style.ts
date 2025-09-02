@@ -13,6 +13,7 @@ export const InputStyled = styled.div`
     width: 100%;
     height: 38px;
     padding: 8px;
+    color: #fff;
 
     text-align: center;
 

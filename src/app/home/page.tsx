@@ -13,22 +13,6 @@ import { Footer } from "../components/footer";
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
 
-  useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (!token || !token.length) window.location.replace("/");
-
-    fetch("/api/verify", {
-      method: "GET",
-      headers: { 'Authorization': `Bearer ${token}` },
-    }).then(async (data) => {
-      const res = await data.json();
-      return res;
-    }).then(res => {
-      if (!res.data) window.location.replace("/");
-    }).catch(e => alert(e));
-
-  }, [])
-
   const getFiles = async () => {
     await fetch('/config/files.json')
       .then(response => {
