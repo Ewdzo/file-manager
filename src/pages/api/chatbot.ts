@@ -1,4 +1,4 @@
-import scrapePdf from "@/app/libs/pdfscraping";
+import scrapePdf from "@/app/lib/pdfscraping";
 import { MemoryService } from "@/app/services/memoryService";
 import type { NextApiRequest, NextApiResponse } from "next";
 
