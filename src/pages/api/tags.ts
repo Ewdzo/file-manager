@@ -26,7 +26,7 @@ export default async function handler(
 
     fs.readFile("./public/config/tags.json", function (err, tag) {
       if (err) {
-        res.status(405).send({ message: "❌ - Failed to read files.json" });
+        res.status(405).send({ message: "❌ - Failed to read tags.json" });
         return;
       }
 
@@ -37,7 +37,7 @@ export default async function handler(
 
       fs.writeFile("./public/config/tags.json", tagsJson, (err) => {
         res.status(405).send({
-          message: "❌ - Failed to save files after delete.",
+          message: "❌ - Failed to save tags after delete.",
           data: err,
         });
         return;
@@ -64,7 +64,7 @@ export default async function handler(
 
     fs.readFile("./public/config/tags.json", function (err, tag) {
       if (err) {
-        res.status(405).send({ message: "❌ - Failed to read files.json" });
+        res.status(405).send({ message: "❌ - Failed to read tags.json" });
         return;
       }
 
@@ -77,7 +77,7 @@ export default async function handler(
 
       fs.writeFile("./public/config/tags.json", tagsJson, (err) => {
         res.status(405).send({
-          message: "❌ - Failed to save files after update.",
+          message: "❌ - Failed to save tags after update.",
           data: err,
         });
         return;
@@ -102,7 +102,7 @@ export default async function handler(
 
     fs.readFile("./public/config/tags.json", function (err, tag) {
       if (err) {
-        res.status(405).json({ message: "❌ - Failed to read files.json" });
+        res.status(405).json({ message: "❌ - Failed to read tags.json" });
         return;
       }
 
@@ -118,7 +118,7 @@ export default async function handler(
 
       fs.writeFile("./public/config/tags.json", tagsJson, (err) => {
         res.status(405).json({
-          message: "❌ - Failed to save files after create.",
+          message: "❌ - Failed to save tags after create.",
           data: err,
         });
         return;
