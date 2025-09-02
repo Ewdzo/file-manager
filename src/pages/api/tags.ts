@@ -59,7 +59,6 @@ export default async function handler(
       return;
     }
 
-    const currentName = req.query.name;
     const name = data.name;
     const color = data.color;
 
@@ -70,7 +69,7 @@ export default async function handler(
       }
 
       const tags = JSON.parse(tag as unknown as string).filter(
-        (tag: Tag) => tag.name != currentName
+        (tag: Tag) => tag.name != name
       );
 
       tags.push({ name: name, color: color });
@@ -85,7 +84,7 @@ export default async function handler(
       });
     });
 
-    res.status(200).json({ message: `Success, ${currentName} updated!` });
+    res.status(200).json({ message: `Success, ${name} updated!` });
   } else if (req.method == "POST") {
     const data = JSON.parse(req.body);
     if (!data.name) {

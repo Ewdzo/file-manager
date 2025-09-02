@@ -8,15 +8,17 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
   message: string;
-  data?: {
-    rating?: string;
-    director?: string;
-    cast?: string | string[];
-    critics?: {
-      user?: string;
-      critic?: string;
-    }[];
-  };
+  data?:
+    | {
+        rating?: string;
+        director?: string;
+        cast?: string | string[] | (string | undefined)[];
+        critics?: {
+          user?: string;
+          critic?: string;
+        }[];
+      }
+    | unknown;
 };
 
 export const config = {

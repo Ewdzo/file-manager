@@ -53,8 +53,8 @@ export default async function getRottenTomatosInfo(title: string) {
       reviews.forEach((el) => {
         const user =
           el
-            .querySelector(".display-name")
-            ?.textContent.trim()
+            ?.querySelector(".display-name")
+            ?.textContent?.trim()
             .replace("\n", "") || "";
         const critic = el.querySelector(".review-text")?.textContent || "";
 
@@ -63,7 +63,6 @@ export default async function getRottenTomatosInfo(title: string) {
 
       return critics;
     });
-    //console.log(JSON.stringify(critics, null, 2));
 
     return { critics: critics };
   } catch (error) {
