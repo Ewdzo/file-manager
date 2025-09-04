@@ -14,13 +14,6 @@ import { AdvancedFiltering, FileSection, SearchBar, SearchContainer, SearchStyle
 export const Search = () => {
     const [files, setFiles] = useState<File[]>([]);
 
-    // const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    //     if (!e.target.files || !e.target.files.length) return;
-
-    //     const form: HTMLFormElement = document.getElementById('file-upload-form') as HTMLFormElement;
-    //     form.submit();
-    // };
-
     const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || !e.target.files.length) return;
         e.preventDefault();
@@ -53,7 +46,7 @@ export const Search = () => {
         getFiles();
     }, [])
 
-    const sections = [{ title: "Arquivos", files: files }];
+    const [sections, setSections] = useState([{ title: "Arquivos", files: files }]);
 
     const [isAdvancedFiltering, setIsAdvancedFiltering] = useState<boolean>(false);
 
@@ -62,7 +55,7 @@ export const Search = () => {
     const [tagQuery, setTagQuery] = useState<Tag[]>([]);
     const [filterTagQuery, setFilterTagQuery] = useState<string>("");
     const [maxTags, setMaxTags] = useState<number>(5);
-    const tags = [...new Set((files.map((file) => file.tags)).flat(1))];
+    const [tags, setTags] = useState<Tag[]>([]);
     const filteredTags = tags.filter(tags => tags.name.toLocaleLowerCase().includes(filterTagQuery));
 
     const [extensionQuery, setExtensionQuery] = useState<Tag[]>([]);
@@ -70,6 +63,36 @@ export const Search = () => {
     const [maxExtensions, setMaxExtensions] = useState<number>(5);
     const extensions = [...new Set(files.map((file) => file.extension).flat(1).filter((value, index, self) => { return self.findIndex(t => t.name === value.name) === index; }))];
     const filteredExtensions = extensions.filter(extension => extension.name.toLocaleLowerCase().includes(filterExtensionQuery));
+
+    const getTags = async () => {
+        return await fetch('/config/tags.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+
+                return response.json() as unknown as Tag[];
+            })
+            .catch(() => { return [] })
+    }
+
+    useEffect(() => {
+        getTags().then((tags) => {
+            setTags(tags);
+            setSections([
+                ...tags.map(
+                    tag => {
+                        const section = {
+                            title: tag.name,
+                            files: files.filter((file) => file.tags.some(fTag => fTag.name == tag.name))
+                        };
+                        return section;
+                    }),
+                { title: "Arquivos", files: files }
+            ])
+        });
+
+    }, [files])
 
     return (
         <SearchStyled>
@@ -149,7 +172,7 @@ export const Search = () => {
                             const filteredFiles = files
                                 .filter(file => {
                                     if (!tagQuery.length) return true;
-                                    return file.tags.some(tag => tagQuery.includes(tag))
+                                    return file.tags.some(tag => tagQuery.some(query => query.name == tag.name && query.color == tag.color))
                                 })
                                 .filter(file => {
                                     if (!extensionQuery.length) return true;

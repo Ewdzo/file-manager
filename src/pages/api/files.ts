@@ -1,5 +1,6 @@
 import { mapPath } from "@/app/helper/mapPath";
 import { File } from "@/app/types/file.type";
+import { Tag } from "@/app/types/tag.type";
 import formidable from "formidable";
 import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -142,6 +143,7 @@ export default async function handler(
     }
 
     const data = await form.parse(req);
+
     fs.readFile("./public/config/files.json", function (err, obj) {
       if (err) {
         res.status(405).send({ message: "❌ - Failed to read files.json" });
@@ -158,12 +160,16 @@ export default async function handler(
           : data[0].nome_do_arquivo;
       if (data[0]["descrição"]) newFile.description = data[0]["descrição"][0];
 
+      if (data[0].tags) {
+        const tags = JSON.parse(data[0].tags[0]) as Tag[];
+        newFile.tags = tags;
+      }
+
       const files = JSON.parse(obj as unknown as string).filter(
         (file: File) => file.path != filePath
       );
 
       files.push(newFile);
-      console.log(newFile);
       const filesJson = JSON.stringify(files);
 
       fs.writeFile("./public/config/files.json", filesJson, (err) => {
