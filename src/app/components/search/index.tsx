@@ -14,12 +14,26 @@ import { AdvancedFiltering, FileSection, SearchBar, SearchContainer, SearchStyle
 export const Search = () => {
     const [files, setFiles] = useState<File[]>([]);
 
+    // const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    //     if (!e.target.files || !e.target.files.length) return;
+
+    //     const form: HTMLFormElement = document.getElementById('file-upload-form') as HTMLFormElement;
+    //     form.submit();
+    // };
+
     const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || !e.target.files.length) return;
+        e.preventDefault();
 
-        const form : HTMLFormElement = document.getElementById('file-upload-form') as HTMLFormElement;
-        form.submit();
-    };
+        const formElement = document.getElementById('file-upload-form') as HTMLFormElement;
+        const form = new FormData(formElement);
+
+        fetch("/api/upload", {
+            body: form,
+            method: "post",
+        }
+        ).then((d) => d.json()).then(() => window.location.reload())
+    }
 
     const getFiles = async () => {
         await fetch('/config/files.json')
@@ -54,7 +68,7 @@ export const Search = () => {
     const [extensionQuery, setExtensionQuery] = useState<Tag[]>([]);
     const [filterExtensionQuery, setFilterExtensionQuery] = useState<string>("");
     const [maxExtensions, setMaxExtensions] = useState<number>(5);
-    const extensions = [...new Set(files.map((file) => file.extension).flat(1).filter((value, index, self) => {return self.findIndex(t => t.name === value.name) === index;}))];
+    const extensions = [...new Set(files.map((file) => file.extension).flat(1).filter((value, index, self) => { return self.findIndex(t => t.name === value.name) === index; }))];
     const filteredExtensions = extensions.filter(extension => extension.name.toLocaleLowerCase().includes(filterExtensionQuery));
 
     return (
@@ -89,7 +103,10 @@ export const Search = () => {
                             <div className="flex flex-col w-full gap-3">
                                 {filteredTags.slice(0, maxTags).map((tag, index) => (
                                     <div key={index} className="flex gap-2 items-center">
-                                        <Checkbox id={"filter-" + tag.name} onChange={(e) => { e.target.checked ? setTagQuery([...tagQuery, tag]) : setTagQuery(tagQuery.filter(i => i != tag)) }} />
+                                        <Checkbox id={"filter-" + tag.name} onChange={(e) => {
+                                            if (e.target.checked) setTagQuery([...tagQuery, tag]);
+                                            else setTagQuery(tagQuery.filter(i => i != tag));
+                                        }} />
                                         <label htmlFor={"filter-" + tag.name} className="w-fit">
                                             <div style={{ background: tag.color }} className="flex-grow rounded-sm px-8">{tag.name}</div>
                                         </label>

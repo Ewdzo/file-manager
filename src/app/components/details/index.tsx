@@ -39,7 +39,7 @@ export const Details = ({ file }: DetailsProps) => {
             body: form,
             method: "put",
         }
-        ).then((d) => d.json()).then((d) => window.location.href = "file?name=" + (d.data.name[0]))
+        ).then((d) => d.json()).then((d) => window.location.href = "file?name=" + (d.data.name))
     }
 
     const handleDelete = () => {

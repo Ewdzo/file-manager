@@ -152,7 +152,10 @@ export default async function handler(
         (obj: File) => obj.path == filePath
       )[0];
 
-      if (data[0].nome_do_arquivo) newFile.name = data[0].nome_do_arquivo[0];
+      if (data[0].nome_do_arquivo)
+        newFile.name = Array.isArray(data[0].nome_do_arquivo)
+          ? data[0].nome_do_arquivo.join("")
+          : data[0].nome_do_arquivo;
       if (data[0]["descrição"]) newFile.description = data[0]["descrição"][0];
 
       const files = JSON.parse(obj as unknown as string).filter(
@@ -160,7 +163,7 @@ export default async function handler(
       );
 
       files.push(newFile);
-
+      console.log(newFile);
       const filesJson = JSON.stringify(files);
 
       fs.writeFile("./public/config/files.json", filesJson, (err) => {

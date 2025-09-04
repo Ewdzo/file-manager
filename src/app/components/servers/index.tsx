@@ -46,12 +46,16 @@ export const Servers = () => {
     }, [])
 
     useEffect(() => {
-        setInterval(() => {
+        const intervalId = setInterval(() => {
             checkPing();
         }, 3000);
 
         setLocalhost(window.location.hostname);
         setPort(window.location.port);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, []);
 
     const handleSubmit: MouseEventHandler<HTMLButtonElement> = (e) => {

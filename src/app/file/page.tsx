@@ -22,16 +22,16 @@ export default function Page() {
         return response.json();
       })
       .then(json => {
-        return setFile(json.filter((file : File) => file.name == name)[0]);
+        return setFile(json.filter((file: File) => file.name == name)[0]);
       })
       .catch(() => { })
-  }
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get("name");
 
-    if(!name) {
+    if (!name) {
       window.location.replace("/files");
       return;
     }
@@ -39,7 +39,7 @@ export default function Page() {
     getFile(name);
   }, [])
 
-  if(!file) return;
+  if (!file) return;
 
   return (
     <>
