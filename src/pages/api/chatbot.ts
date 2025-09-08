@@ -1,6 +1,7 @@
 import scrapePdf from "@/app/lib/pdfscraping";
 import { MemoryService } from "@/app/services/memoryService";
 import type { NextApiRequest, NextApiResponse } from "next";
+import path from "path";
 
 type ResponseData = {
   message: string;
@@ -34,9 +35,11 @@ export default async function handler(
   }
 
   try {
-    const path = data.file as string;
+    const filepath = data.file as string;
 
-    const file = await scrapePdf(path);
+    const pdfPath = path.join("./public/", filepath);
+    
+    const file = await scrapePdf(pdfPath);
     if (!file) {
       res.status(500).json({ message: "PDF Scraping failed!" });
       return;

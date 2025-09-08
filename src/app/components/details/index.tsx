@@ -1,19 +1,19 @@
 "use client";
 
 import { File } from "@/app/types/file.type";
+import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
 import { ChangeEvent, MouseEventHandler, useEffect, useState } from "react";
+import { Button } from "../button";
 import { GreyButton } from "../button/variation/greyButton";
+import { Checkbox } from "../checkbox";
 import { ImageInputLikeContainer } from "../container/variations/inputimage";
 import { InputLikeContainer } from "../container/variations/inputlike";
 import { Divider } from "../divider";
 import { AnchorIcon } from "../icon/variations/anchor";
-import { Input } from "../input";
+import { Input, TextArea } from "../input";
 import { DetailsImageInput } from "../input/variations/detailsImage";
 import { DetailsStyled } from "./style";
-import { Tag } from "@/app/types/tag.type";
-import { Checkbox } from "../checkbox";
-import { Button } from "../button";
 
 export type DetailsProps = {
     file: File;
@@ -27,6 +27,9 @@ export const Details = ({ file }: DetailsProps) => {
     const [fileTags, setFileTags] = useState<Tag[]>(file.tags);
     const [maxTags, setMaxTags] = useState<number>(5);
     const [isTagSelectorOpen, setIsTagSelectorOpen] = useState<boolean>(false);
+    const [isChatModalOpen, setIsChatModalOpen] = useState<boolean>(false);
+    const [chatBotQuery, setChatBotQuery] = useState<string>("");
+    const [chatBotResponse, setChatBotResponse] = useState<string>("");
     const filteredTags = tags.filter(tags => tags.name.toLocaleLowerCase().includes(tagQuery));
 
 
@@ -78,6 +81,24 @@ export const Details = ({ file }: DetailsProps) => {
             method: "DELETE"
         }).then(() => {
             window.location.replace("/files")
+        });
+    }
+
+
+    const handleSubmitChatBot: MouseEventHandler<HTMLButtonElement> = (e) => {
+        e.preventDefault();
+
+        if (!file.path.endsWith(".pdf")) {
+            setChatBotResponse("Chatbot atualmente somente suporta arquivos pdf.");
+            return;
+        }
+        setChatBotResponse("Em processo...");
+
+        fetch("/api/chatbot?file=" + file.path + "&query=" + chatBotQuery, {
+            method: "get",
+        }
+        ).then((d) => d.json()).then((d) => {
+            setChatBotResponse(d.message);
         });
     }
 
@@ -282,6 +303,46 @@ export const Details = ({ file }: DetailsProps) => {
                     </div>
                 </div>
             </form>
+            <div className="absolute bottom-2 right-2">
+                <button type="button" onClick={() => setIsChatModalOpen(!isChatModalOpen)}>
+                    <Image
+                        width={35}
+                        height={35}
+                        priority
+                        alt="Chatbot Icon"
+                        src={"/assets/icons/chatbot.svg"}
+                        className="rounded-full border border-darkGreyNFM bg-whiteNFM"
+                    />
+                </button>
+                <div className={(isChatModalOpen ? "flex " : "hidden ") + "p-4 border-blackNFM border-2 rounded-lg bg-blackNFM absolute bottom-0 right-0 w-[275px]"}>
+                    <button type="button" className="text-whiteNFM absolute right-2 top-0" onClick={() => setIsChatModalOpen(false)}>x</button>
+                    <form action="/api/chatbot" className="w-full flex gap-2 flex-col" id="chatbot-form">
+                        <Input
+                            name="Pergunta"
+                            type="text"
+                            id="message"
+                            placeholder={"Insira aqui sua pergunta"}
+                            className="text-sm lg:!items-start lg:!text-start"
+                            onChange={(e) => setChatBotQuery(e.target.value)}
+                        />
+                        <button type="submit" onClick={handleSubmitChatBot}>
+                            <InputLikeContainer>
+                                <p className="text-xs text-center text-whiteNFM">Enviar</p>
+                            </InputLikeContainer>
+                        </button>
+                        <TextArea
+                            name="Resposta"
+                            type="text"
+                            id="answer"
+                            defaultValue={chatBotResponse}
+                            placeholder={chatBotResponse}
+                            readOnly
+                            disabled
+                            className="text-sm lg:!items-start lg:!text-start min-h-fit"
+                        />
+                    </form>
+                </div>
+            </div>
         </DetailsStyled>
     )
 }

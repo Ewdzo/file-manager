@@ -56,7 +56,7 @@ export const Header = () => {
                     height={35}
                     priority
                     alt="User Icon"
-                    src={user?.photo || "/assets/images/default_user.svg"}
+                    src={user?.photo || "/assets/images/default_user.png"}
                     className="rounded-full border border-darkGreyNFM"
                 />
             </Link>

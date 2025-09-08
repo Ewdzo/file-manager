@@ -71,9 +71,10 @@ export default async function handler(
     }
 
     const filePath = req.query.path as string;
-    const basePath = filePath
-      .slice(filePath.lastIndexOf("/"))
-      .replace(".", "_");
+
+    const basePath = filePath.includes("/")
+      ? filePath.slice(filePath.lastIndexOf("/")).replace(".", "_")
+      : filePath.slice(filePath.lastIndexOf("\\")).replace(".", "_");
 
     try {
       form.on("fileBegin", (uploads, file) => {
