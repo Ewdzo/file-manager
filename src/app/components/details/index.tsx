@@ -184,8 +184,8 @@ export const Details = ({ file }: DetailsProps) => {
                     <h1 className="text-whiteNFM text-center">Crítica Especializada</h1>
                     {
                         file.critics && file.critics.specialized && file.critics.specialized.map((critic, index) => (
-                            <div className="flex flex-col gap-2 justify-center text-whiteNFM" key={index}>
-                                <div className="flex items-center gap-2 justify-center w-fit">
+                            <div className="flex flex-col gap-2 justify-center text-whiteNFM items-center lg:items-start" key={index}>
+                                <div className="flex items-center gap-2 justify-center w-fit ">
                                     <Image
                                         width={35}
                                         height={35}
@@ -196,7 +196,7 @@ export const Details = ({ file }: DetailsProps) => {
                                     />
                                     {critic.user}
                                 </div>
-                                <p>{critic.critic}</p>
+                                <p className="text-center lg:text-start">{critic.critic}</p>
                             </div>
                         ))
                     }
@@ -205,7 +205,7 @@ export const Details = ({ file }: DetailsProps) => {
                     <h1 className="text-whiteNFM text-center">Crítica dos Fãs</h1>
                     {
                         file.critics && file.critics.fans && file.critics.fans.map((critic, index) => (
-                            <div className="flex flex-col gap-2 justify-center text-whiteNFM" key={index}>
+                            <div className="flex flex-col gap-2 justify-center text-whiteNFM items-center lg:items-start" key={index}>
                                 <div className="flex items-center gap-2 justify-center w-fit">
                                     <Image
                                         width={35}
@@ -217,7 +217,7 @@ export const Details = ({ file }: DetailsProps) => {
                                     />
                                     {critic.user} - {critic.rating + "/5"}
                                 </div>
-                                <p>{critic.critic}</p>
+                                <p className="text-center lg:text-start">{critic.critic}</p>
                             </div>
                         ))
                     }
@@ -412,7 +412,7 @@ export const Details = ({ file }: DetailsProps) => {
                     </div>
                 </div>
             </form>
-            <div className="absolute bottom-2 right-2">
+            <div className="absolute bottom-2 right-2 z-10">
                 <button type="button" onClick={() => setIsChatModalOpen(!isChatModalOpen)}>
                     <Image
                         width={35}
