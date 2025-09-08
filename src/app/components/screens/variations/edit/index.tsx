@@ -169,7 +169,7 @@ export const Edit = ({ children }: Readonly<{ children?: React.ReactNode }>) => 
                             </div>
                             <div className="flex flex-col gap-4 items-center">
                                 <Button onClick={handleEdit}>
-                                    Cadastrar-se
+                                    Salvar
                                 </Button>
                                 {children}
                             </div>

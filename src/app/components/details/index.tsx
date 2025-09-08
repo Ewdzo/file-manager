@@ -272,7 +272,7 @@ export const Details = ({ file }: DetailsProps) => {
                                 />
                                 <p className="text-xs">Deletar</p>
                             </button>
-                            <button className="flex flex-col items-center justify-center text-center max-w-[50px] gap-2">
+                            {/* <button className="flex flex-col items-center justify-center text-center max-w-[50px] gap-2">
                                 <Image
                                     width={25}
                                     height={25}
@@ -280,8 +280,8 @@ export const Details = ({ file }: DetailsProps) => {
                                     src={"/assets/icons/ownership.svg"}
                                 />
                                 <p className="text-xs">Tornar-se Dono</p>
-                            </button>
-                            <button className="flex flex-col items-center justify-center text-center gap-2">
+                            </button> */}
+                            {/* <button className="flex flex-col items-center justify-center text-center gap-2">
                                 <Image
                                     width={25}
                                     height={25}
@@ -289,7 +289,7 @@ export const Details = ({ file }: DetailsProps) => {
                                     src={"/assets/icons/hide.svg"}
                                 />
                                 <p className="text-xs">Ocultar</p>
-                            </button>
+                            </button> */}
                             <button className="flex flex-col items-center justify-center text-center gap-2" onClick={handleSubmit} type="submit">
                                 <Image
                                     width={25}

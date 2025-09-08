@@ -14,7 +14,10 @@ import { AdvancedFiltering, FileSection, SearchBar, SearchContainer, SearchStyle
 export const Search = () => {
     const [files, setFiles] = useState<File[]>([]);
 
+
     const handleUpload = (e: ChangeEvent<HTMLInputElement>) => {
+        const token = window.localStorage.getItem("token");
+        if (!token || !token.length) window.location.replace("/");
         if (!e.target.files || !e.target.files.length) return;
         e.preventDefault();
 
@@ -24,6 +27,9 @@ export const Search = () => {
         fetch("/api/upload", {
             body: form,
             method: "post",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         }
         ).then((d) => d.json()).then(() => window.location.reload())
     }
