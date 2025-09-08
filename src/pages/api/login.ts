@@ -1,4 +1,5 @@
 import { User } from "@/app/types/user.type";
+import crypto from "crypto";
 import fs from "fs";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -35,8 +36,8 @@ export default async function handler(
     return;
   }
 
-  const user = { name: data.username, password: data.password };
-  const secret = "fortnitebattlepass";
+  const user = { name: data.username as string, password: data.password as string };
+
 
   fs.readFile("./public/config/users.json", function (err, file) {
     if (err) {
@@ -45,9 +46,14 @@ export default async function handler(
         .send({ message: "❌ - Failed to read users.json", data: err });
       return;
     }
+    
+    const hash = crypto.createHash('sha256');
+    const secret = "fortnitebattlepass";
+    hash.update(user.password + secret);
+    const data = hash.digest('hex');
 
-    const users = JSON.parse(file as unknown as string).filter((u : User) => u.name == user.name && u.password == user.password);
 
+    const users = JSON.parse(file as unknown as string).filter((u : User) => u.name == user.name && u.password == data);
     if(users.length) {
       const token = jwt.sign(users[0], secret, { expiresIn: "10hr" });
       res.status(200).json({ message: "Login realizado com sucesso", data: token });

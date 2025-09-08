@@ -1,5 +1,6 @@
 import { isSetUp } from "@/app/helper/isSetUp";
 import { User } from "@/app/types/user.type";
+import crypto from "crypto";
 import fs from "fs";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -46,12 +47,19 @@ export default async function handler(
     }
 
     const users = JSON.parse(file as unknown as string);
-    users.map((u: User) => {
-      if (u.name == user.name) {
-        res.status(405).send({ message: "❌ - User already exists" });
-        return;
-      }
-    });
+    const filtered = users.filter((u: User) => u.name == user.name);
+    if (filtered.length) {
+      res.status(405).send({ message: "❌ - User already exists" });
+      return;
+    }
+
+    const hash = crypto.createHash("sha256");
+    const secret = "fortnitebattlepass";
+    const decrypted = user.password + secret;
+    hash.update(decrypted);
+
+    const data = hash.digest("hex");
+    user.password = data;
     users.push(user);
     const usersJson = JSON.stringify(users);
 
