@@ -44,7 +44,6 @@ export default async function getRottenTomatoes(title: string) {
             return score;
         })
 
-        console.log(rating)
         if (!rating) {
             return { rating: "Rating not found" };
         }

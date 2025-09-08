@@ -37,8 +37,6 @@ export default async function getImdbRating(title: string) {
             return { rating: "Movie link not found" };
         }
 
-        console.log("Movie Link:", movieLink);
-
         await page.setExtraHTTPHeaders({
             'Accept-Language': 'en-US,en;q=0.5'
         })

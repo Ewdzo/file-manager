@@ -183,8 +183,59 @@ export default async function handler(
 
       res.status(200).json({ message: "Success!", data: newFile });
     });
+  } else if (req.method == "PATCH") {
+    const filePath = req.query.path as string;
+    const types = ["info", "rating"];
+    const sources = ["imdb", "rottentomatoes", "letterboxd"];
+
+    fs.readFile("./public/config/files.json", async function (err, obj) {
+      if (err) {
+        res.status(405).send({ message: "❌ - Failed to read files.json" });
+        return;
+      }
+
+      const newFile = JSON.parse(obj as unknown as string).filter(
+        (obj: File) => obj.path == filePath
+      )[0] as File;
+
+      const host = req.headers.origin;
+      const cast = await fetch(`${host}/api/webscraping?filename=${newFile.name}&type=${types[0]}&source=${sources[0]}`).then(d => d.json()).then(d => d.data.cast);
+      newFile.cast = cast;
+
+      const specializedCritics = await fetch(`${host}/api/webscraping?filename=${newFile.name}&type=${types[0]}&source=${sources[1]}`).then(d => d.json()).then(d => d.data.critics);
+      const fanCritics = await fetch(`${host}/api/webscraping?filename=${newFile.name}&type=${types[0]}&source=${sources[2]}`).then(d => d.json()).then(d => d.data.critics);;
+      newFile.critics = {
+        fans: fanCritics,
+        specialized: specializedCritics
+      };
+      
+      const rating = {
+        imdb: await fetch(`${host}/api/webscraping?filename=${newFile.name}&type=${types[1]}&source=${sources[0]}`).then(d => d.json()).then(d => d.data.rating as string),
+        rottentomatoes: await fetch(`${host}/api/webscraping?filename=${newFile.name}&type=${types[1]}&source=${sources[1]}`).then(d => d.json()).then(d => d.data.rating as string),
+        letterboxd: await fetch(`${host}/api/webscraping?filename=${newFile.name}&type=${types[1]}&source=${sources[2]}`).then(d => d.json()).then(d => d.data.rating as string)
+      }
+
+      newFile.score = rating;
+
+      const files = JSON.parse(obj as unknown as string).filter(
+        (file: File) => file.path != filePath
+      );
+
+      files.push(newFile);
+      const filesJson = JSON.stringify(files);
+
+      fs.writeFile("./public/config/files.json", filesJson, (err) => {
+        res.status(405).send({
+          message: "❌ - Failed to save files after edit.",
+          data: err,
+        });
+        return;
+      });
+
+      res.status(200).json({ message: "Success!", data: newFile });
+    });
   } else {
-    res.status(400).json({ message: "Try PUT or DELETE method!" });
+    res.status(400).json({ message: "Try PUT, PATCH or DELETE method!" });
     return;
   }
 }

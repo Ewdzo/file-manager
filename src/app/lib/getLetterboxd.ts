@@ -58,7 +58,7 @@ export default async function getLetterboxd(title: string) {
             return { rating: "Rating not found" };
         }
 
-        return { rating: rating };
+        return { rating: rating + " / 5.0" };
 
 
     } catch (error) {

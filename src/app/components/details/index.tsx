@@ -84,6 +84,13 @@ export const Details = ({ file }: DetailsProps) => {
         });
     }
 
+    const handleScrape = () => {
+        fetch("/api/files?path=" + file.path, {
+            method: "PATCH"
+        }).then(() => {
+            window.location.reload();
+        });
+    }
 
     const handleSubmitChatBot: MouseEventHandler<HTMLButtonElement> = (e) => {
         e.preventDefault();
@@ -106,6 +113,7 @@ export const Details = ({ file }: DetailsProps) => {
         if (window.innerWidth < 1024) setMaxText(100);
     }, [])
 
+    console.log(file)
     return (
         <DetailsStyled className="flex flex-col gap-4 pb-6 lg:flex-row lg:gap-8 lg:px-4">
             <div className="flex flex-col gap-4 lg:w-1/2">
@@ -122,6 +130,97 @@ export const Details = ({ file }: DetailsProps) => {
                         {(maxText < file.description.length) ? (<>...<GreyButton onClick={() => setMaxText(file.description.length)} mini image={{ path: "/assets/icons/info.svg", alt: "Information Icon" }}>Expandir</GreyButton></>)
                             : ""}
                     </p>
+                </div>
+                <div className={file.cast ? "flex flex-col justify-center items-center gap-2 lg:items-start" : "hidden"}>
+                    <h1 className="text-whiteNFM text-center">Elenco</h1>
+                    <div className="flex gap-2 justify-center lg:items-center text-whiteNFM">
+                        <div className="flex items-center gap-2 justify-center w-fit">
+                            {file.cast?.join(", ") || ""}
+                        </div>
+                    </div>
+                </div>
+                <div className={file.score ? "flex flex-col justify-center items-center gap-2 lg:items-start" : "hidden"}>
+                    <h1 className="text-whiteNFM text-center">Pontuação</h1>
+                    <div className="flex gap-2 justify-center text-whiteNFM">
+                        <div className="flex items-center justify-center flex-col w-fit">
+                            <Image
+                                width={35}
+                                height={35}
+                                priority
+                                alt="IMDB Icon"
+                                src={"/assets/images/imdb.png"}
+                                className="rounded-full border border-darkGreyNFM"
+                            />
+                            IMDB
+                            <p>{file.score?.imdb}</p>
+                        </div>
+                        <div className="flex items-center justify-center flex-col w-fit">
+                            <Image
+                                width={35}
+                                height={35}
+                                priority
+                                alt="Letterboxd Icon"
+                                src={"/assets/icons/letterboxd.svg"}
+                                className="rounded-full border border-darkGreyNFM"
+                            />
+                            Letterboxd
+                            <p>{file.score?.letterboxd}</p>
+                        </div>
+                        <div className="flex items-center justify-center flex-col w-fit">
+                            <Image
+                                width={35}
+                                height={35}
+                                priority
+                                alt="RottenTomatoes Icon"
+                                src={"/assets/images/rotten_tomatoes.png"}
+                                className="rounded-full border border-darkGreyNFM bg-white"
+                            />
+                            Rotten Tomatoes
+                            <p>{file.score?.rottentomatoes}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className={file.critics?.specialized ? "flex flex-col justify-center items-center gap-2 lg:items-start" : "hidden"}>
+                    <h1 className="text-whiteNFM text-center">Crítica Especializada</h1>
+                    {
+                        file.critics && file.critics.specialized && file.critics.specialized.map((critic, index) => (
+                            <div className="flex flex-col gap-2 justify-center text-whiteNFM" key={index}>
+                                <div className="flex items-center gap-2 justify-center w-fit">
+                                    <Image
+                                        width={35}
+                                        height={35}
+                                        priority
+                                        alt="Default User Icon"
+                                        src={"/assets/images/default_user.png"}
+                                        className="rounded-full border border-darkGreyNFM"
+                                    />
+                                    {critic.user}
+                                </div>
+                                <p>{critic.critic}</p>
+                            </div>
+                        ))
+                    }
+                </div>
+                <div className={file.critics?.fans ? "flex flex-col justify-center items-center gap-2 lg:items-start" : "hidden"}>
+                    <h1 className="text-whiteNFM text-center">Crítica dos Fãs</h1>
+                    {
+                        file.critics && file.critics.fans && file.critics.fans.map((critic, index) => (
+                            <div className="flex flex-col gap-2 justify-center text-whiteNFM" key={index}>
+                                <div className="flex items-center gap-2 justify-center w-fit">
+                                    <Image
+                                        width={35}
+                                        height={35}
+                                        priority
+                                        alt="Default User Icon"
+                                        src={"/assets/images/default_user.png"}
+                                        className="rounded-full border border-darkGreyNFM"
+                                    />
+                                    {critic.user} - {critic.rating + "/5"}
+                                </div>
+                                <p>{critic.critic}</p>
+                            </div>
+                        ))
+                    }
                 </div>
                 <div className="flex flex-col justify-center items-center gap-2 lg:items-start">
                     <h1 className="text-whiteNFM text-center">Similares</h1>
@@ -271,6 +370,16 @@ export const Details = ({ file }: DetailsProps) => {
                                     src={"/assets/icons/delete.svg"}
                                 />
                                 <p className="text-xs">Deletar</p>
+                            </button>
+                            <button className="flex flex-col items-center justify-center text-center gap-2" onClick={handleScrape} type="button">
+                                <Image
+                                    width={25}
+                                    height={25}
+                                    alt="Scrape Icon"
+                                    className="rounded-full"
+                                    src={"/assets/icons/scrape.svg"}
+                                />
+                                <p className="text-xs">WebScrape</p>
                             </button>
                             {/* <button className="flex flex-col items-center justify-center text-center max-w-[50px] gap-2">
                                 <Image

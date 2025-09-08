@@ -40,8 +40,6 @@ export default async function getLetterboxd(title: string) {
       return url || "";
     });
 
-    console.log("Movie Link:", movieLink);
-
     await page.goto(movieLink, {
       waitUntil: "domcontentloaded",
       timeout: 30000,

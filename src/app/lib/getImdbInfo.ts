@@ -31,10 +31,8 @@ export default async function getImdbInfo(title: string) {
         });
 
         if (!movieLink) {
-            return { rating: "Movie link not found" };
+            return { rating: "Movie info not found" };
         }
-
-        console.log("Movie Link:", movieLink);
 
         await page.setExtraHTTPHeaders({
             'Accept-Language': 'en-US,en;q=0.5'
@@ -60,7 +58,6 @@ export default async function getImdbInfo(title: string) {
         const cast = await page.evaluate(() => {
             const castSelectors = '[class="ipc-inline-list ipc-inline-list--show-dividers ipc-inline-list--inline ipc-metadata-list-item__list-content baseAlt"]';
             const listItems = document.querySelectorAll(`${castSelectors} li `);
-            console.log("Cast List Items:", listItems);
             const cast = Array.from(listItems).map(item => item.textContent?.trim()).filter(Boolean);
             return cast.length > 0 ? cast.slice(-3) : null;
         });
