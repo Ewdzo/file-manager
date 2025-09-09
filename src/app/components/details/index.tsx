@@ -335,7 +335,7 @@ export const Details = ({ file }: DetailsProps) => {
                                     <div key={index} className="text-xs rounded-sm px-2 py-0.5 w-fit text-blackNFM" style={{ background: tag.color }}>{tag.name}</div>
                                 ))}
                                 <button className="flex h-[16px] w-[16px] justify-center items-center text-xs rounded-[4px] text-blackNFM bg-whiteNFM" type="button" onClick={() => setIsTagSelectorOpen(true)}>+</button>
-                                {isTagSelectorOpen && <div className="w-full bg-[#1E1E1E] border-2 border-[#101010] absolute z-20 bottom-0 left-0 p-2 rounded-lg flex flex-col gap-4">
+                                {isTagSelectorOpen && <div className="min-w-fit w-full bg-[#1E1E1E] border-2 border-[#101010] absolute z-20 bottom-0 left-0 p-2 rounded-lg flex flex-col gap-4">
                                     <input type="text" id="tag-search" className="text-greyNFM flex-grow bg-[#404040] rounded-lg" placeholder="" onChange={(e) => setTagQuery(e.target.value.toLocaleLowerCase())} />
                                     <div className="flex flex-col w-full gap-3">
                                         {filteredTags.slice(0, maxTags).map((tag, index) => (

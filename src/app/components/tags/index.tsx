@@ -1,5 +1,6 @@
 "use client"
 
+import { File } from "@/app/types/file.type";
 import { Tag } from "@/app/types/tag.type";
 import Image from "next/image";
 import { MouseEventHandler, useEffect, useState } from "react";
@@ -11,6 +12,25 @@ export const TagsPage = () => {
     const [tags, setTags] = useState<Tag[]>([]);
     const [selectedTag, setSelectedTag] = useState<Tag>({ name: "", color: "" });
     const [option, setOption] = useState<number>(0);
+    const [files, setFiles] = useState<File[]>([]);
+
+    const getFiles = async () => {
+        await fetch('/config/files.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error " + response.status);
+                }
+                return response.json();
+            })
+            .then(json => {
+                return setFiles(json);
+            })
+            .catch(() => { })
+    }
+
+    useEffect(() => {
+        getFiles();
+    }, [])
 
     const getTags = async () => {
         await fetch('/config/tags.json')
@@ -84,7 +104,6 @@ export const TagsPage = () => {
                     </div>
                 </TagBar>
             </TagContainer>
-
             <form className={option == 0 ? "hidden" : "flex flex-col gap-2 lg:p-8"}>
                 <div className="flex flex-col gap-2 items-center lg:flex-row">
                     <Input
@@ -100,7 +119,7 @@ export const TagsPage = () => {
                     <div className="flex flex-col w-fit items-center">
                         <label className="text-whiteNFM">Itens</label>
                         <InputLikeContainer className="!px-4 flex justify-center">
-                            <div className="text-xs rounded-sm px-2 py-0.5 min-w-[50px] text-blackNFM" style={{ background: "#2DFF96" }}>0</div>
+                            <div className="text-xs rounded-sm px-2 py-0.5 min-w-[50px] text-blackNFM" style={{ background: "#2DFF96" }}>{files.filter(f => f.tags.some(tag => tag.name == selectedTag.name && tag.color == selectedTag.color)).length}</div>
                         </InputLikeContainer>
                     </div>
                 </div>
