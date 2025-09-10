@@ -54,3 +54,18 @@ A página de categoria permite o usuário criar ou editar categorias de classifi
 
 A página de servidores permite o usuário checar a saúde do sistema e quantos servidores estão disponíveis.
 ![servers](https://github.com/user-attachments/assets/28a1d1ee-adff-49b6-b516-12897571fbf5)
+
+# Webscraping
+
+O Nexus File Manager conta com um sistema de webscraping voltado para filmes populares enviados ao ambiente, complementando o cadastro do filme com dados extraídos do IMDB, Letterboxd e RottenTomatoes como a pontuação do filme nas plataformas, elenco, críticas de fãs e críticas especializadas.
+
+![webscraping](https://github.com/user-attachments/assets/63444209-018d-41da-be81-4b2382510220)
+
+# Chatbot com LLM + RAG
+
+Para arquivos PDF o Nexus File Manager também oferece uma funcionalidade de IA, um chatbot treinado com RAG baseado no conteúdo do arquivo permitindo um acesso simplificado, intuitivo e rápido ao conteúdo disponibilizado no PDF. 
+A funcionalidade é baseada em Ollama, permitindo acesso ao chatbot mesmo sem acesso à internet.
+
+![chatbot](https://github.com/user-attachments/assets/72e920d5-6d23-4381-b592-c92233d663e7)
+
+
