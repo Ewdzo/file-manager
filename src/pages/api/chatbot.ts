@@ -38,19 +38,21 @@ export default async function handler(
     const filepath = data.file as string;
 
     const pdfPath = path.join("./public/", filepath);
-    
+
     const file = await scrapePdf(pdfPath);
     if (!file) {
       res.status(500).json({ message: "PDF Scraping failed!" });
       return;
     }
-    const pages = file.pages.map((page) => {
-      return { content: page.content.map((c) => c.str) };
-    });
-    const content = JSON.stringify(pages);
 
     const memoryService = new MemoryService();
-    await memoryService.storeMemory(content);
+    await Promise.all(file.pages.map(async (page) => {
+      const content = page.content.map((c) => c.str);
+      const json = JSON.stringify(content);
+
+      await memoryService.storeMemory(json);
+    }));
+
     const response = await memoryService.getRelevantMemory(
       data.query as string
     );
